@@ -1,0 +1,155 @@
+      html, body {
+        background-image: linear-gradient(#85BB4C, #EBF2EA);
+/*           url("http://urubyiruko.org/uploads/images/backgrounds/cute-light-green-pattern-background.png"); */
+        text-align: center;
+        border-radius:15px;
+      }
+      
+      .bank {
+        height:260px;
+        background: transparent;
+        text-align: center:
+      }
+      
+      .title {
+        font-size: 80px;
+        text-align: center;
+        font-family: "Montserrat";
+        margin-top:-20px;
+        color: black;
+        
+      }
+
+      .category {
+        font-size:30px;
+        text-align: left;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left:20px;
+        font-family: "Roboto";
+      }
+      
+      #submit {
+        font-size:50px;
+        font-family: "Montserrat";
+        width: 250px;
+        background-color: lightgray;
+        height: 80px;
+        text-align: center;
+      }
+            
+      .flex-container{
+        display: flex;
+        flex-direction: column;
+        margin-left:-100px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+        height: 60vh;
+        width:600px;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+
+      .left-log {
+        margin-left:50px;
+        margin-top: 20px;
+        height: 60vh;
+        width:800px;
+      }
+      
+      .box {
+        width: 70%;
+        height: 25%;
+      }
+      
+      .log{
+        overflow-y:scroll;
+        position:relative;
+        height:440px;
+		    width:215px;
+      }
+      
+      .btn {
+        margin-top: 20px;
+      }
+      
+     .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%; 
+      overflow: auto; 
+      background-color: rgba(0,0,0,0.4); 
+    }
+    /* Modal Content/Box */
+    .modal-content {
+      margin: 15% auto; 
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      font-size:20px;
+      font-family: "Montserrat";
+      background-color:#F8F8F8;
+      
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 30px;
+      font-weight: bold;
+    }
+    .instBox {
+        text-align: left;
+        font-size: 20px;
+        color: black;
+        font-family: "Montserrat";
+    }
+      
+      option {
+        font-size:50px;
+      }
+      
+      .hello {
+        font-size:180px;
+        color: darkgray;
+        font-family: "Montserrat";
+        background-color: white;
+        text-align: center;
+        margin-top: 150px;
+        border-radius:15px;
+        border: 1px solid #85BB4C;
+      }
+      
+      .hello1 {
+        font-size:120px;
+        color: black;
+        width: 95%;
+        font-family: "Montserrat";
+        background-color: white;
+        text-align: center;
+        margin-top: 90px;
+        margin-bottom:120px;
+        border-radius:15px;
+        border: 1px solid #85BB4C;
+      }
+
+    .container-fluid {
+      background-color: #F8F8F8; 
+      margin-bottom:10px;
+      font-color: #85BB4C; 
+      padding-top:10px; 
+      padding-right:40px;
+      margin-top:15px;
+      padding-bottom:2px;
+      border-top:2px solid black;
+      border-bottom:2px solid black;
+
+    }
+
+    #submitForm {
+      color:darkgray;
+    }
+      
