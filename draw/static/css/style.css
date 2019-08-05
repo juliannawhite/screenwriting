@@ -88,31 +88,42 @@
     }
 
 /* Color palette for choosing color for every character */
-.colorBtn {
+#colorBtn {
     border: black 1px solid; 
     border-radius: 10px;
     margin-right: 0px;
+    height: 30px;
+    width: 30px;
+    background-color: black;
+    padding-bottom: 10px;
+}
+
+#popcp {
+    width: 200px;
+    height: 170px;
+    position: absolute;
+    display: none;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+	flex-wrap: wrap;
 }
 
 #colorPalette {
     width: 200px;
-    height: 200px;
-    background-color: white;
-    /* position: absolute; */
-    display:none;
+    height: 170px;
+    position: absolute;
+    display: flex;
     border-radius: 10px;
-    border-color: grey;
-    border-width: 1px;
-	background-color: #f1f1f1;
+    background-color: #f8f8f8;
 	flex-wrap: wrap;
 }
 
 .swatch {
-	width: 20px;
-	height: 20px;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
-	margin: 2px;
+	width: 30px;
+	height: 30px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+	margin: 5px;
 }
 

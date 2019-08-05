@@ -222,10 +222,21 @@ $(document).ready(()=>{
       $("#addchar").show(); 
       $("#charHelp").hide(); 
     }
-     
-    $("#colorBtn").click(function() {
-        $("#colorPalette").fadeTo("fast", 1);
-    });
+    
+    var colorBtn = document.getElementById("colorBtn");
+    var colorPalette = document.getElementById("colorPalette");
+    colorBtn.onclick = function() {
+        $("#popcp").fadeTo("fast", 1);
+    };
+})
+
+window.onload = function() {
+    // color palette
+	var cp = {
+		history: ["#000000"], // black selected by default
+		options: [],
+		$container: $('#colorPalette')
+	}
     
     // create a color palette with the given colors
 	function createColorPalette(colors){
@@ -233,13 +244,21 @@ $(document).ready(()=>{
 	    for (var i = colors.length - 1; i >= 0; i--) {
 	        var $swatch = $("<div>").css("background-color", colors[i])
 							        .addClass("swatch");
+            $swatch.click(function(){
+				// add color to the color palette history
+			    cp.history.push($(this).css("background-color"));
+                colorBtn.style.backgroundColor = cp.history[cp.history.length - 1];
+                $("#popcp").fadeTo("fast",0);
+                $("#popcp").css("display","none");
+			});
+            cp.$container.append($swatch);
 		}
 	}
 
 	// loads a set of colors from a json to create a color palette
 	function getColorsCreatePalette(){
 		cp.$container.html(" ");
-		$.getJSON('/static/coloring/vendors/material/material-colors.json', function(colors){
+		$.getJSON('/static/draw/vendor/material/material-colors.json', function(colors){
 			var keys = Object.keys(colors);
 			for (var i = keys.length - 1; i >= 0; i--) {
             cp.options.push(colors[keys[i]][500]);
@@ -247,5 +266,5 @@ $(document).ready(()=>{
 			createColorPalette(cp.options);
 		});
 	}
-  
-   })
+    getColorsCreatePalette();
+}
