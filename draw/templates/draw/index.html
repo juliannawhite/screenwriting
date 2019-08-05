@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Screenwriting App</title>
 
-<!--     <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto&display=swap" rel="stylesheet">
     <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
@@ -17,21 +17,121 @@
 </head>
 <body>
   
-  <div class="containter large">
+  <div class="containter-fluid large" id = "large_display">
     <div class="row">
-      <div class="col-12">
-        large display screen
+      <div class="col-12" style = "margin-top:300px;">
+
+        this is where animations will show up
+        
       </div>
     </div>
   </div>
   
-    <div class="containter computer">
-    <div class="row">
+  
+  <div class = "container computer edit">
+         <div class="row" style="margin-top:-30px; background-color: lightgrey; ">
+            <div class="col-2" style="text-align:right;">
+              <button class="btn finalize-btn" id="charbtn" style = "margin-bottom:20px;"><i class="fa fa-group"></i> Characters</button>
+              <div id="myCharModal" class="modal">
+                <div class="modal-content">
+                  <span class="close" id="close3">&times;</span>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
+                          Characters:
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12" style="text-align: left; font-size:20px;">
+                          Alice <br> Bob 
+                                                
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+              </div>
+          </div>
+       
+         <div class="col-8"> </div>
+           <button class="btn finalize-btn" id="play" style = "margin-bottom:20px;"><i class="fa fa-play"></i> Playback</button>
+         <div class="col-2">
+           
+           </div>
+       </div>
+    <div class = "row">
       <div class="col-12">
-        computer display screen
+        
+        <div class = "row title">
+          <div class = "col-12">
+<!--             <input class = "input-for-amounts" type="text" name="title-name" id="title-name" style = "width:15%;"> -->
+            TITLE
+          </div>
+        </div>
+        
+        <div class = "script">  
+        </div>
+        
+        <div class="container">
+                    <div class="row" style="margin-top:30px;">
+            <div class="col-12" style="text-align:right;">
+              <button class="btn finalize-btn"  id="intbtn"><i class="fa fa-plus"></i> Interaction </button>
+              <div id="myInteractionModal" class="modal">
+                <div class="modal-content">
+                  <span class="close" id="close2">&times;</span>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
+                          Interaction:
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+              </div>
+          </div>
+         </div>
+          
+          <div class="row" style="margin-top:30px;">
+            <div class="col-12" style="text-align:right;">
+              <button class="btn"  id="dialbtn"><i class="fa fa-plus"></i> Dialogue</button>
+              <div id="myDialModal" class="modal">
+                <div class="modal-content">
+                  <span class="close" id="close1">&times;</span>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
+                          Character Name:
+                          <input type="text" name="char-name" id="char-name" style = "width:35%;">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12" style="text-align: left; font-size:20px;">
+                          Words: 
+                          <input class = "input-for-amounts" type="text" name="words" id="words" style = "width:92%;">
+                          <div style="text-align: right;">
+                          <button class="btn"  id="enter" style = "margin-top: 20px;"><i class="fa fa-check"></i> Enter</button>
+                           </div>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+              </div>
+          </div>
+       </div>
+        </div>
+        
+
+        
+        
+        
+        
+        
+        
+        
+        
       </div>
     </div>
   </div>
+  
   
 </body>
   
