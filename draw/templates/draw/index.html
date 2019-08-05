@@ -52,7 +52,7 @@
                         <div style="text-align: right; font-size:20px;" id = "charHelp">
                           New Character: 
                           <input type="text" name="newcharinput" id="newcharinput" style = "width:15%;">
-                          
+                          <button class="colorBtn">C</button>
                           <button class="btn"  id="newchargo"><i class="fa fa-check"></i> </button>
                         
                         </div>
@@ -84,12 +84,15 @@
             <div class="col-12" style="text-align:right;">
               <button class="btn finalize-btn"  id="intbtn"><i class="fa fa-plus"></i> Interaction </button>
               <div id="myInteractionModal" class="modal">
-                <div class="modal-content">
+                <div class="modal-content" style="height:600px; margin-top:50px;">
                   <span class="close" id="close2">&times;</span>
                     <div class="container-fluid">
                       <div class="row">
-                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
-                          Interaction:
+                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: center; color: lightgrey;">
+                          Drag characters to change their position.<br>
+                          
+                          <canvas id="myCanvas2" style = "width: 1000px; height:500px;"></canvas>
+                          
                         </div>
                       </div>
                     </div>
@@ -108,7 +111,8 @@
                       <div class="row">
                         <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
                           Character Name:
-                          <input type="text" name="char-name" id="char-name" style = "width:35%;">
+                          <select class = "form" name="charnamesel" id="charnamesel" size="1" style = "width: 300px; border-radius:15px;">
+                          </select>
                         </div>
                       </div>
                       <div class="row">

@@ -68,6 +68,7 @@
       overflow: auto; 
       background-color: rgba(0,0,0,0.4); 
     }
+
     /* Modal Content/Box */
     .modal-content {
       margin: 15% auto; 
@@ -85,4 +86,33 @@
       font-size: 30px;
       font-weight: bold;
     }
+
+/* Color palette for choosing color for every character */
+.colorBtn {
+    border: black 1px solid; 
+    border-radius: 10px;
+    margin-right: 0px;
+}
+
+#colorPalette {
+    width: 200px;
+    height: 200px;
+    background-color: white;
+    /* position: absolute; */
+    display:none;
+    border-radius: 10px;
+    border-color: grey;
+    border-width: 1px;
+	background-color: #f1f1f1;
+	flex-wrap: wrap;
+}
+
+.swatch {
+	width: 20px;
+	height: 20px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	margin: 2px;
+}
 

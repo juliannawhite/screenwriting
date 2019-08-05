@@ -87,7 +87,10 @@ $(document).ready(()=>{
        document.getElementById("newcharinput").value = "";
        
        charList.push(newcharname);
-       console.log(charList);
+       
+       $(".form").append('<option value="'+ newcharname + '">' + newcharname +'</option>');
+       
+       console.log('<option value="'+ newcharname + '">' + newcharname +'</option>');
        $("#addchar").show(); 
        $("#charHelp").hide(); 
       
@@ -97,17 +100,23 @@ $(document).ready(()=>{
      
     enter.onclick = function() {
       dialmodal.style.display = "none";
-      var name = document.getElementById("char-name").value;
-      var words = document.getElementById("words").value;
-      console.log(charList.includes(name));
       
-      if (!charList.includes(name)) {
-        alert("You appear to have given dialogue to a character who doesn't exist. Please type a valid name or add the character.");
-        return;
-      }
+      var e = document.getElementById("charnamesel");
+      var name = e.options[e.selectedIndex].value;
+      e.selectedIndex = -1; 
+      
+      //var name = document.getElementById("char-name").value;
+      
+      var words = document.getElementById("words").value;
+//       console.log(charList.includes(name));
+      
+//       if (!charList.includes(name)) {
+//         alert("You appear to have given dialogue to a character who doesn't exist. Please type a valid name or add the character.");
+//         return;
+//       }
       
       $(".script").append('<div class = "row title dialogue"> <div class = "col-12">' + name + ": <a>" + words + '</a></div></div>');
-      document.getElementById("char-name").value = "";
+      //document.getElementById("char-name").value = "";
       document.getElementById("words").value = "";
       
       charOrder.push(name);
@@ -141,6 +150,58 @@ $(document).ready(()=>{
      
      intbtn.onclick = function() {
        intmodal.style.display = "block";
+       
+       // characters canvas to reposition stick figures
+       
+       var canvas = document.getElementById('myCanvas2');
+       paper.setup(canvas);
+       
+       var stickman = new paper.Raster('stick');
+         
+       stickman.position = new paper.Point(90, 80);
+       stickman.scale(0.9); 
+       //x += 30;
+             
+       var set = new Set(charOrder);
+       
+//        var curr = 0;
+//        var x = 100;
+//        var y = 30;
+//        while (curr < set.size) {
+         
+          
+//          var stickman = new paper.Raster('stick');
+         
+//          stickman.position = new paper.Point(x, y);
+//          stickman.scale(0.9); 
+//          x += 30;
+         
+//        }
+       
+       
+        var tool = new paper.Tool();
+        var colors = ["black"];
+        tool.onMouseDrag = function(event) {
+          var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
+          if (hitResult && hitResult.item) {
+            if (event.delta.y == 0) {
+              hitResult.item = hitResult.item.scale(1.005);
+            } else {
+              hitResult.item.position = event.lastPoint;
+              hitResult.item.strokeColor = colors[Math.round(colorInd) % colors.length];
+              hitResult.item.fillColor = colors[Math.round(colorInd) % colors.length];
+            }
+          }
+       }
+       tool.onClick = function(event) {
+         console.log("meow");
+          var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
+          if (hitResult && hitResult.item) {
+            hitResult.item = hitResult.item.scale(1.2);
+          }
+       }
+      
+           
       }
      
      charbtn.onclick = function() {
@@ -158,8 +219,33 @@ $(document).ready(()=>{
     
     span3.onclick = function() {
       charmodal.style.display = "none";
+      $("#addchar").show(); 
+      $("#charHelp").hide(); 
     }
      
+    $("#colorBtn").click(function() {
+        $("#colorPalette").fadeTo("fast", 1);
+    });
+    
+    // create a color palette with the given colors
+	function createColorPalette(colors){
+        // create a swatch for each color
+	    for (var i = colors.length - 1; i >= 0; i--) {
+	        var $swatch = $("<div>").css("background-color", colors[i])
+							        .addClass("swatch");
+		}
+	}
 
+	// loads a set of colors from a json to create a color palette
+	function getColorsCreatePalette(){
+		cp.$container.html(" ");
+		$.getJSON('/static/coloring/vendors/material/material-colors.json', function(colors){
+			var keys = Object.keys(colors);
+			for (var i = keys.length - 1; i >= 0; i--) {
+            cp.options.push(colors[keys[i]][500]);
+		    }
+			createColorPalette(cp.options);
+		});
+	}
   
    })
