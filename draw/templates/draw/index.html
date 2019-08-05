@@ -14,19 +14,14 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
     <script type="text/javascript" src="{% static 'app.js' %}"> </script>
 
-</head>
-<body>
-  
-  <div class="containter-fluid large" id = "large_display">
-    <div class="row">
-      <div class="col-12" style = "margin-top:300px;">
 
-        this is where animations will show up
-        
-      </div>
-    </div>
-  </div>
+
+</head>
+<body> <!-- <canvas id="myCanvas" margin="0px">this is where animations will show up</canvas> -->
+    
   
+  <canvas class="large" id="myCanvas" resize margin="0px"></canvas>
+    
   
   <div class = "container computer edit">
          <div class="row" style="margin-top:-30px; background-color: lightgrey; ">
@@ -42,11 +37,25 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-12" style="text-align: left; font-size:20px;">
-                          Alice <br> Bob 
+                        <div class="col-12" style="text-align: left; font-size:20px;" id = "characters">
+                          
                                                 
                         </div>
                       </div>
+                      
+                      <div id="addchar" class="col-12" style="text-align: right; font-size:20px;">
+                          <button class="btn"  ><i class="fa fa-plus"></i> Add Character</button>
+                        
+                        </div>
+                      
+                        <div style="text-align: right; font-size:20px;" id = "charHelp">
+                          New Character: 
+                          <input type="text" name="newcharinput" id="newcharinput" style = "width:15%;">
+                          
+                          <button class="btn"  id="newchargo"><i class="fa fa-check"></i> </button>
+                        
+                        </div>
+                      
                     </div>
                  </div>
               </div>
@@ -54,17 +63,15 @@
        
          <div class="col-8"> </div>
            <button class="btn finalize-btn" id="play" style = "margin-bottom:20px;"><i class="fa fa-play"></i> Playback</button>
-         <div class="col-2">
-           
-           </div>
+            <div class="col-2">
+            </div>
        </div>
     <div class = "row">
       <div class="col-12">
         
-        <div class = "row title">
-          <div class = "col-12">
-<!--             <input class = "input-for-amounts" type="text" name="title-name" id="title-name" style = "width:15%;"> -->
-            TITLE
+        <div class = "row ">
+          <div class = "col-12 title">
+            <input class = "input-for-amounts" type="text" name="title-name" value = "Enter Scene Title Here" id="title-name" style = "width:75%; text-align: center;">
           </div>
         </div>
         
@@ -109,7 +116,7 @@
                           <input class = "input-for-amounts" type="text" name="words" id="words" style = "width:92%;">
                           <div style="text-align: right;">
                           <button class="btn"  id="enter" style = "margin-top: 20px;"><i class="fa fa-check"></i> Enter</button>
-                           </div>
+                          </div>
                         </div>
                       </div>
                     </div>
