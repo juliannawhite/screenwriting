@@ -17,20 +17,23 @@ $(document).ready(()=>{
          paper.setup(canvas);
          canvas.width  = window.innerWidth;
          canvas.height = window.innerHeight;
-       var stickman;
        //svg import example https://codepen.io/andywise/pen/MqxLVr
-        paper.project.importSVG("meow.svg", function(item) {
-        stickman = item;
-        stickman.scale(0.5);
-        stickman.position = new paper.Point(paper.project.bounds.width/2, paper.project.bounds.height/2);
-        })
+       var stickman = new paper.Raster('stick');
+       stickman.position = new paper.Point(100, 70);
+       stickman.scale(0.5); 
+       // paper.project.importSVG("meow.svg", function(item) {
+        //stickman = item;
+       /// stickman.scale(0.5);
+       // stickman.position = new paper.Point(paper.project.bounds.width/2, paper.project.bounds.height/2);
+       // })
          //end setup
         var tool = new paper.Tool();
         // Give the stroke a color
         var colors = ["red", "orange", "yellow", "green", "blue", "purple", "black"];
         var colorInd = 0;
-        var myCircle = new paper.Path.Circle(new paper.Point(100, 70), 50);
-        myCircle.fillColor = 'black';
+        //var myCircle = new paper.Path.Circle(new paper.Point(100, 70), 50);
+       
+        //myCircle.fillColor = 'black';
         tool.onMouseDrag = function(event) {
           var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
           if (hitResult && hitResult.item) {
@@ -38,6 +41,7 @@ $(document).ready(()=>{
               hitResult.item = hitResult.item.scale(1.005);
             } else {
               hitResult.item.position = event.lastPoint;
+              hitResult.item.strokeColor = colors[Math.round(colorInd) % colors.length];
               hitResult.item.fillColor = colors[Math.round(colorInd) % colors.length];
               colorInd = (colorInd + .1);
             }
