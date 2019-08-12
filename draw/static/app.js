@@ -13,6 +13,8 @@ $(document).ready(()=>{
      if (url.indexOf('?size=large') > -1) {
        $(".large").show();
        $(".computer").hide();   
+       $(".real").hide();
+       
          var canvas = document.getElementById('myCanvas');
          paper.setup(canvas);
          canvas.width  = window.innerWidth;
@@ -61,9 +63,9 @@ $(document).ready(()=>{
      // code for computer screen
      if (!(url.indexOf('?size=large') > -1)) {
         $("#charhelp").hide(); 
-         $(".large").hide();
-         $(".real").hide();
-         
+        $(".large").hide();
+        $(".real").hide();
+        $(".stageimg").hide();
       }
      
      var enter = document.getElementById("enter");
@@ -77,6 +79,21 @@ $(document).ready(()=>{
        $("#charHelp").show();  
               
      }
+     
+      var nextdone = document.getElementById("next");
+      nextdone.onclick = function() {
+        $(".stageimg").show();
+        $(".nameplay").hide();
+    }
+      
+      var homedone = document.getElementById("homedone");
+      homedone.onclick = function() {
+        $(".stageimg").hide();
+        $(".starter").hide();
+        $(".real").show();
+        var title = document.getElementById("title-name").value;
+        $("#title-here").append(title);
+    }
   
      
   // adding character
