@@ -13,6 +13,11 @@ $(document).ready(()=>{
   
      var chosen_color = "black";
   
+     var current_interaction = 0;
+     var select_char_dict = {};
+  
+    var selected_chars_list;
+  
   	 var cp = {
       history: ["#000000"], // black selected by default
       options: [],
@@ -162,8 +167,8 @@ $(document).ready(()=>{
        
        char_color_dict[newcharname] = chosen_color;
        console.log(char_color_dict);
- 
-             
+       
+       $("#charchoose").append('<label class="container"><input type="checkbox" checked="checked"><span class="checkmark"></span>' + newcharname + '</label> <br>')
      };
   
   // adding dialogue
@@ -193,6 +198,19 @@ $(document).ready(()=>{
       dialOrder.push(words);
       
      }
+    
+    var selected_chars = document.getElementById("enter2");
+    selected_chars.onclick = function() {
+      console.log("check here");
+      selected_chars_list = [];
+      var charcheck = document.forms[1];
+      for (var i = 0; i < charcheck.length; i++) {
+        if (charcheck[i].checked) {
+          selected_chars_list.push(charcheck[i].value);
+          console.log(selected_chars_list);
+        }
+      }
+    }
     
     // pressing play
     
@@ -234,10 +252,15 @@ $(document).ready(()=>{
        var canvas = document.getElementById('myCanvas2');
        paper.setup(canvas);
        
-       var stickman = new paper.Raster('stick');
-         
-       stickman.position = new paper.Point(90, 80);
-       stickman.scale(0.9); 
+       var stickmen = {};
+       var current_x = 90;
+       for(var i = 0; i < 2; i++){ 
+        stickmen['stickman' + i] = new paper.Raster('stick'); 
+        stickmen['stickman' + i].position = new paper.Point(current_x, 120);
+        stickmen['stickman' + i].scale(0.9);
+        current_x += 120;
+       }
+       
        //x += 30;
              
        var set = new Set(charOrder);

@@ -158,14 +158,22 @@
                     <div class="container-fluid">
                       <div class="row">
                         <div class="col-1">
-                          <button class="btn finalize-btn"  id="charstick"><i class="fa fa-plus"></i></button>
+                          <button class="btn finalize-btn"  id="charstick"><i class="fa fa-plus"></i> &nbsp Select Characters</button>
                                  <div id="myCharStickModal" class="modal">
                                     <div class="modal-content" style="height:400px; margin-top:60px;">
                                       <span class="close" id="close4">&times;</span>
                                         <div class="container-fluid">
                                           <div class="row">
-                                            <div class="col-12 instBox" style="margin-bottom:20px; text-align: center; color: lightgrey;">
-                                              Hi
+                                            <div class="col-12 instBox" style="margin-bottom:20px; text-align: center; color: black;">
+                                              <a>Select which characters you would like in this interaction:</a><br>
+                                              <form id = "charchoose">
+                                                
+                                              </form>
+                                            </div>
+                                            <div class="row">
+                                              <div class="col-12" style="text-align: right;">
+                                                <button class="btn"  id="enter2" style = "margin-top: 20px; text-align:right;"><i class="fa fa-check"></i> Enter</button>
+                                              </div>
                                             </div>
                                           </div>
 
@@ -174,17 +182,20 @@
                                      </div>
                                   </div>
                         </div>
-                        <div class="col-11 instBox" style="margin-bottom:20px; text-align: center; color: lightgrey;">
+                        <div class="col-10 instBox" style="margin-bottom:20px; text-align: center; color: lightgrey;">
                           
                           Drag characters to change their position.<br>
+                          
 
                           
                           <canvas id="myCanvas2" style = "width: 1000px; height:500px;"></canvas>
                           
                         </div>
+                        
+                        <div class="col-1">
+                            <button class="btn"  id="enter3" style = "margin-top: 20px; text-align:right;"><i class="fa fa-check"></i> Enter</button>
+                        </div>
                       </div>
-                      
-
                     </div>
                  </div>
               </div>
