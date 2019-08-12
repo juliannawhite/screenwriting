@@ -61,7 +61,8 @@ $(document).ready(()=>{
      // code for computer screen
      if (!(url.indexOf('?size=large') > -1)) {
         $("#charhelp").hide(); 
-         $(".large").hide(); 
+         $(".large").hide();
+         $(".real").hide();
          
       }
      
