@@ -8,6 +8,53 @@ $(document).ready(()=>{
   
      var charOrder = [];
      var dialOrder = [];
+  
+     var char_color_dict = {};
+  
+     var chosen_color = "black";
+  
+  	 var cp = {
+      history: ["#000000"], // black selected by default
+      options: [],
+      $container: $('#colorPalette')
+	   }
+     
+    var colorBtn = document.getElementById("colorBtn");
+    var colorPalette = document.getElementById("colorPalette");
+    colorBtn.onclick = function() {
+        $("#popcp").fadeTo("fast", 1);
+    };
+     
+	function createColorPalette(colors){
+        // create a swatch for each color
+	    for (var i = colors.length - 1; i >= 0; i--) {
+	        var $swatch = $("<div>").css("background-color", colors[i])
+							        .addClass("swatch");
+            $swatch.click(function(){
+				// add color to the color palette history
+              
+			          cp.history.push($(this).css("background-color"));
+                colorBtn.style.backgroundColor = cp.history[cp.history.length - 1];
+                chosen_color = cp.history[cp.history.length - 1];
+                console.log(chosen_color);
+                $("#popcp").fadeTo("fast",0);
+                $("#popcp").css("display","none");
+              console.log(chosen_color);
+			});
+            cp.$container.append($swatch);
+		  }
+	  }
+  
+  function getColorsCreatePalette(){
+		cp.$container.html(" ");
+		$.getJSON('/static/draw/vendor/material/material-colors.json', function(colors){
+			var keys = Object.keys(colors);
+			for (var i = keys.length - 1; i >= 0; i--) {
+            cp.options.push(colors[keys[i]][500]);
+		    }
+			createColorPalette(cp.options);
+		});
+	}
      
      // code for large display screen
      if (url.indexOf('?size=large') > -1) {
@@ -66,6 +113,7 @@ $(document).ready(()=>{
         $(".large").hide();
         $(".real").hide();
         $(".stageimg").hide();
+        getColorsCreatePalette();
       }
      
      var enter = document.getElementById("enter");
@@ -97,6 +145,7 @@ $(document).ready(()=>{
   
      
   // adding character
+      // HERE
   
      newchar.onclick = function() {    
        var newcharname = document.getElementById("newcharinput").value;
@@ -108,10 +157,13 @@ $(document).ready(()=>{
        
        $(".form").append('<option value="'+ newcharname + '">' + newcharname +'</option>');
        
-       console.log('<option value="'+ newcharname + '">' + newcharname +'</option>');
        $("#addchar").show(); 
        $("#charHelp").hide(); 
-      
+       
+       char_color_dict[newcharname] = chosen_color;
+       console.log(char_color_dict);
+ 
+             
      };
   
   // adding dialogue
@@ -160,10 +212,18 @@ $(document).ready(()=>{
      var charmodal = document.getElementById("myCharModal");
      var charbtn = document.getElementById("charbtn");
      var span3 = document.getElementById("close3");
+  
+     var charstickmodal = document.getElementById("myCharStickModal");
+     var charstick = document.getElementById("charstick");
+     var span4 = document.getElementById("close4");
      
      
      dialbtn.onclick = function() {
        dialmodal.style.display = "block";
+      }
+     
+     charstick.onclick = function() {
+       charstickmodal.style.display = "block";
       }
      
      intbtn.onclick = function() {
@@ -235,54 +295,15 @@ $(document).ready(()=>{
       intmodal.style.display = "none";
     }
     
+    span4.onclick = function() {
+      charstickmodal.style.display = "none";
+    }
+    
     span3.onclick = function() {
       charmodal.style.display = "none";
       $("#addchar").show(); 
       $("#charHelp").hide(); 
     }
     
-    var colorBtn = document.getElementById("colorBtn");
-    var colorPalette = document.getElementById("colorPalette");
-    colorBtn.onclick = function() {
-        $("#popcp").fadeTo("fast", 1);
-    };
+
 })
-
-window.onload = function() {
-    // color palette
-	var cp = {
-		history: ["#000000"], // black selected by default
-		options: [],
-		$container: $('#colorPalette')
-	}
-    
-    // create a color palette with the given colors
-	function createColorPalette(colors){
-        // create a swatch for each color
-	    for (var i = colors.length - 1; i >= 0; i--) {
-	        var $swatch = $("<div>").css("background-color", colors[i])
-							        .addClass("swatch");
-            $swatch.click(function(){
-				// add color to the color palette history
-			    cp.history.push($(this).css("background-color"));
-                colorBtn.style.backgroundColor = cp.history[cp.history.length - 1];
-                $("#popcp").fadeTo("fast",0);
-                $("#popcp").css("display","none");
-			});
-            cp.$container.append($swatch);
-		}
-	}
-
-	// loads a set of colors from a json to create a color palette
-	function getColorsCreatePalette(){
-		cp.$container.html(" ");
-		$.getJSON('/static/draw/vendor/material/material-colors.json', function(colors){
-			var keys = Object.keys(colors);
-			for (var i = keys.length - 1; i >= 0; i--) {
-            cp.options.push(colors[keys[i]][500]);
-		    }
-			createColorPalette(cp.options);
-		});
-	}
-    getColorsCreatePalette();
-}

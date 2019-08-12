@@ -67,7 +67,7 @@
     
     <div class = "container hello" style = "margin-top: 90px;">
     <div class = "row">
-      <div class = "col-12" style = "font-size:70px;">
+      <div class = "col-12" style = "font-size:80px;">
         <a>Please enter the url of an image of your stage</a>
       </div>
     </div>
@@ -76,7 +76,7 @@
     <div class = "container hello" style = "margin-top: 90px;">
     <div class = "row">
       <div class = "col-12">
-        <input id = "stage" name="stage" type="text" style="text-align: center; width:80%; height: 100px;font-size: 60px;" ></input>
+        <input id = "stage" name="stage" type="text" style="font-size: 30px; height: 80px; width:75%; text-align: center;" ></input>
       </div>
     </div>
   </div>
@@ -157,13 +157,34 @@
                   <span class="close" id="close2">&times;</span>
                     <div class="container-fluid">
                       <div class="row">
-                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: center; color: lightgrey;">
+                        <div class="col-1">
+                          <button class="btn finalize-btn"  id="charstick"><i class="fa fa-plus"></i></button>
+                                 <div id="myCharStickModal" class="modal">
+                                    <div class="modal-content" style="height:400px; margin-top:60px;">
+                                      <span class="close" id="close4">&times;</span>
+                                        <div class="container-fluid">
+                                          <div class="row">
+                                            <div class="col-12 instBox" style="margin-bottom:20px; text-align: center; color: lightgrey;">
+                                              Hi
+                                            </div>
+                                          </div>
+
+
+                                        </div>
+                                     </div>
+                                  </div>
+                        </div>
+                        <div class="col-11 instBox" style="margin-bottom:20px; text-align: center; color: lightgrey;">
+                          
                           Drag characters to change their position.<br>
+
                           
                           <canvas id="myCanvas2" style = "width: 1000px; height:500px;"></canvas>
                           
                         </div>
                       </div>
+                      
+
                     </div>
                  </div>
               </div>
