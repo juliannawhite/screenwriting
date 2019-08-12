@@ -16,7 +16,7 @@ $(document).ready(()=>{
      var current_interaction = 0;
      var select_char_dict = {};
   
-    var selected_chars_list;
+    var selected_chars_list = [];
   
   	 var cp = {
       history: ["#000000"], // black selected by default
@@ -168,7 +168,7 @@ $(document).ready(()=>{
        char_color_dict[newcharname] = chosen_color;
        console.log(char_color_dict);
        
-       $("#charchoose").append('<label class="container"><input type="checkbox" checked="checked"><span class="checkmark"></span>' + newcharname + '</label> <br>')
+       $("#charchoose").append('<label class="container"><input type="checkbox" checked="checked" value="' + newcharname + '"><span class="checkmark"></span>' + newcharname + '</label> <br>')
      };
   
   // adding dialogue
@@ -201,15 +201,28 @@ $(document).ready(()=>{
     
     var selected_chars = document.getElementById("enter2");
     selected_chars.onclick = function() {
-      console.log("check here");
       selected_chars_list = [];
-      var charcheck = document.forms[1];
+      var charcheck = document.forms[0];
       for (var i = 0; i < charcheck.length; i++) {
         if (charcheck[i].checked) {
           selected_chars_list.push(charcheck[i].value);
           console.log(selected_chars_list);
         }
       }
+      charstickmodal.style.display = "none";
+       var canvas = document.getElementById('myCanvas2');
+       paper.setup(canvas);
+      
+       
+       var stickmen = {};
+       var current_x = 90;
+       for(var j = 0; j < selected_chars_list.length; j++) { 
+        stickmen['stickman' + j] = new paper.Raster('stick'); 
+        stickmen['stickman' + j].position = new paper.Point(current_x, 120);
+        stickmen['stickman' + j].color = char_color_dict[selected_chars[j]];
+        stickmen['stickman' + j].scale(0.9);
+        current_x += 120;
+       }
     }
     
     // pressing play
@@ -252,33 +265,16 @@ $(document).ready(()=>{
        var canvas = document.getElementById('myCanvas2');
        paper.setup(canvas);
        
-       var stickmen = {};
-       var current_x = 90;
-       for(var i = 0; i < 2; i++){ 
-        stickmen['stickman' + i] = new paper.Raster('stick'); 
-        stickmen['stickman' + i].position = new paper.Point(current_x, 120);
-        stickmen['stickman' + i].scale(0.9);
-        current_x += 120;
-       }
-       
-       //x += 30;
-             
-       var set = new Set(charOrder);
-       
-//        var curr = 0;
-//        var x = 100;
-//        var y = 30;
-//        while (curr < set.size) {
-         
-          
-//          var stickman = new paper.Raster('stick');
-         
-//          stickman.position = new paper.Point(x, y);
-//          stickman.scale(0.9); 
-//          x += 30;
-         
+//        var stickmen = {};
+//        var current_x = 90;
+//        for(var i = 0; i < selected_chars_list.length; i++){ 
+//         stickmen['stickman' + i] = new paper.Raster('stick'); 
+//         stickmen['stickman' + i].position = new paper.Point(current_x, 120);
+//         stickmen['stickman' + i].scale(0.9);
+//         current_x += 120;
 //        }
-       
+                    
+       var set = new Set(charOrder);
        
         var tool = new paper.Tool();
         var colors = ["black"];
