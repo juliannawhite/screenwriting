@@ -60,63 +60,14 @@ $(document).ready(()=>{
 			createColorPalette(cp.options);
 		});
 	}
-     
-     // code for large display screen
-     if (url.indexOf('?size=large') > -1) {
-       $(".large").show();
-       $(".computer").hide();   
-       $(".real").hide();
-       
-         var canvas = document.getElementById('myCanvas');
-         paper.setup(canvas);
-         canvas.width  = window.innerWidth;
-         canvas.height = window.innerHeight;
-       //svg import example https://codepen.io/andywise/pen/MqxLVr
-       var stickman = new paper.Raster('stick');
-       stickman.position = new paper.Point(100, 70);
-       stickman.scale(0.5); 
-       // paper.project.importSVG("meow.svg", function(item) {
-        //stickman = item;
-       /// stickman.scale(0.5);
-       // stickman.position = new paper.Point(paper.project.bounds.width/2, paper.project.bounds.height/2);
-       // })
-         //end setup
-        var tool = new paper.Tool();
-        // Give the stroke a color
-        var colors = ["red", "orange", "yellow", "green", "blue", "purple", "black"];
-        var colorInd = 0;
-        //var myCircle = new paper.Path.Circle(new paper.Point(100, 70), 50);
-       
-        //myCircle.fillColor = 'black';
-        tool.onMouseDrag = function(event) {
-          var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
-          if (hitResult && hitResult.item) {
-            if (event.delta.y == 0) {
-              hitResult.item = hitResult.item.scale(1.005);
-            } else {
-              hitResult.item.position = event.lastPoint;
-              hitResult.item.strokeColor = colors[Math.round(colorInd) % colors.length];
-              hitResult.item.fillColor = colors[Math.round(colorInd) % colors.length];
-              colorInd = (colorInd + .1);
-            }
-          }
-       }
-       tool.onClick = function(event) {
-         console.log("meow");
-          var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
-          if (hitResult && hitResult.item) {
-            hitResult.item = hitResult.item.scale(1.2);
-          }
-       }
-     }
-  
-  
+
      
      // code for computer screen
      if (!(url.indexOf('?size=large') > -1)) {
         $("#charhelp").hide(); 
         $(".large").hide();
-        $(".real").hide();
+        //$(".real").hide();
+       $(".starter").hide(); // here
         $(".stageimg").hide();
         getColorsCreatePalette();
       }
@@ -178,20 +129,12 @@ $(document).ready(()=>{
       
       var e = document.getElementById("charnamesel");
       var name = e.options[e.selectedIndex].value;
-      e.selectedIndex = -1; 
-      
-      //var name = document.getElementById("char-name").value;
-      
+      e.selectedIndex = -1;       
       var words = document.getElementById("words").value;
-//       console.log(charList.includes(name));
-      
-//       if (!charList.includes(name)) {
-//         alert("You appear to have given dialogue to a character who doesn't exist. Please type a valid name or add the character.");
-//         return;
-//       }
-      
+     
       $(".script").append('<div class = "row title dialogue"> <div class = "col-12">' + name + ": <a>" + words + '</a></div></div>');
-      //document.getElementById("char-name").value = "";
+      $(".script").append('<div class="interaction_actual"><button class="btn"> <i class="fa fa-plus"></i></button></div>').click(function(){openInter()});
+      
       document.getElementById("words").value = "";
       
       charOrder.push(name);
@@ -230,6 +173,10 @@ $(document).ready(()=>{
     play.onclick = function() {
       
     }
+    
+    function openInter() {
+      intmodal.style.display = "block";
+    }
      
      
      var dialmodal = document.getElementById("myDialModal");
@@ -237,8 +184,10 @@ $(document).ready(()=>{
      var span1 = document.getElementById("close1");
      
      var intmodal = document.getElementById("myInteractionModal");
-     var intbtn = document.getElementById("intbtn");
+//      var intbtn = document.getElementById("intbtn");
      var span2 = document.getElementById("close2");
+  
+     var interactions = $( "div" ).find( ".interaction_actual" );//document.getElementsByClassName("interaction_actual");
      
      var charmodal = document.getElementById("myCharModal");
      var charbtn = document.getElementById("charbtn");
@@ -257,49 +206,46 @@ $(document).ready(()=>{
        charstickmodal.style.display = "block";
       }
      
-     intbtn.onclick = function() {
-       intmodal.style.display = "block";
+     $('div.interaction_actual').click(function() {
+            intmodal.style.display = "block";
+       
+     
+//      interactions[0].onclick = function() {
+//        intmodal.style.display = "block";
+//        console.log("yee");
        
        // characters canvas to reposition stick figures
        
-       var canvas = document.getElementById('myCanvas2');
-       paper.setup(canvas);
+//        var canvas = document.getElementById('myCanvas2');
+//        paper.setup(canvas);
        
-//        var stickmen = {};
-//        var current_x = 90;
-//        for(var i = 0; i < selected_chars_list.length; i++){ 
-//         stickmen['stickman' + i] = new paper.Raster('stick'); 
-//         stickmen['stickman' + i].position = new paper.Point(current_x, 120);
-//         stickmen['stickman' + i].scale(0.9);
-//         current_x += 120;
-//        }
                     
-       var set = new Set(charOrder);
+//        var set = new Set(charOrder);
        
-        var tool = new paper.Tool();
-        var colors = ["black"];
-        tool.onMouseDrag = function(event) {
-          var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
-          if (hitResult && hitResult.item) {
-            if (event.delta.y == 0) {
-              hitResult.item = hitResult.item.scale(1.005);
-            } else {
-              hitResult.item.position = event.lastPoint;
-              hitResult.item.strokeColor = colors[Math.round(colorInd) % colors.length];
-              hitResult.item.fillColor = colors[Math.round(colorInd) % colors.length];
-            }
-          }
-       }
-       tool.onClick = function(event) {
-         console.log("meow");
-          var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
-          if (hitResult && hitResult.item) {
-            hitResult.item = hitResult.item.scale(1.2);
-          }
-       }
+//         var tool = new paper.Tool();
+//         var colors = ["black"];
+//         tool.onMouseDrag = function(event) {
+//           var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
+//           if (hitResult && hitResult.item) {
+//             if (event.delta.y == 0) {
+//               hitResult.item = hitResult.item.scale(1.005);
+//             } else {
+//               hitResult.item.position = event.lastPoint;
+//               hitResult.item.strokeColor = colors[Math.round(colorInd) % colors.length];
+//               hitResult.item.fillColor = colors[Math.round(colorInd) % colors.length];
+//             }
+//           }
+//        }
+//        tool.onClick = function(event) {
+//          console.log("meow");
+//           var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
+//           if (hitResult && hitResult.item) {
+//             hitResult.item = hitResult.item.scale(1.2);
+//           }
+//        }
       
            
-      }
+      });
      
      charbtn.onclick = function() {
        charmodal.style.display = "block";
