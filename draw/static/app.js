@@ -121,6 +121,7 @@ $(document).ready(()=>{
       for (var line = 0; line < charOrder.length; line++) {
         playmodal.style.display = "block";
         $(".word_area").empty();
+        $(".word_area").css("color", char_color_dict[charOrder[line]]);
         $(".word_area").append('<p>'+ dialOrder[line] + '</p>');
         await new Promise(resolve => setTimeout(resolve, 2000));
         console.log("here");
