@@ -1,5 +1,5 @@
     html, body {
-      background-color:lightgray;
+      background-color: #bdc5d5;
       text-align: center;
     }
 
@@ -52,9 +52,11 @@
     }
 
     .btn {
-      border: black 1px solid; 
+      color: #4b618c;
+      border: #6fcbf2 3px solid; 
       border-radius: 10px;
       margin-right: 20px;
+      background-color: #caecfa;
     }
 
      .modal {
@@ -142,4 +144,33 @@
   text-align: right;
 }
 
+.questions {
+   font-size:180px;
+   color: #4b618c;
+   font-family: “Montserrat”;
+   background-color: #bdc5d5;
+   text-align: center;
+   margin-top: 150px;
+}
 
+.title-home {
+   font-size:180px;
+   color: #4b618c;
+   font-family: “Montserrat”;
+   background-color: #faf7df;
+   text-align: center;
+   margin-top: 150px;
+   border-radius:15px;
+   border: 10px dotted #f2eaa7;
+}
+
+.btn-start {
+   font-size:180px;
+   color: white;
+   font-family: “Montserrat”;
+   background-color: #6fcbf2;
+   text-align: center;
+   margin-top: 150px;
+   border-radius:15px;
+   border: 3px solid #caecfa;
+}

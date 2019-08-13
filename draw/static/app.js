@@ -15,6 +15,8 @@ $(document).ready(()=>{
      var current_interaction = 0;
      var select_char_dict = {};
     var selected_chars_list = [];
+  
+    var all_interactions = [];
 
   // COLOR PALETTE
   
@@ -63,8 +65,8 @@ $(document).ready(()=>{
      if (!(url.indexOf('?size=large') > -1)) {
         $("#charhelp").hide(); 
         $(".large").hide();
-        //$(".real").hide();
-       $(".starter").hide(); // here
+        $(".real").hide();
+       //$(".starter").hide(); // here
         $(".stageimg").hide();
         getColorsCreatePalette();
       }
@@ -107,8 +109,8 @@ $(document).ready(()=>{
       playmodal.style.display = "block";
         
       for (var line = 0; line < charOrder.length; line++) {
-        console.log("checking");
         console.log(dialOrder[line]);
+        console.log(all_interactions[line]);
       }
         
       
@@ -162,13 +164,13 @@ $(document).ready(()=>{
     
     function openInter() {
       intmodal.style.display = "block";
-        var canvas = document.getElementById('myCanvas2');
         paper.setup(canvas);
          var tool = new paper.Tool();
         tool.onMouseDrag = function(event) {
           var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
           if (hitResult && hitResult.item) {
-             hitResult.item.position = event.lastPoint;            
+             hitResult.item.position = event.lastPoint;
+             console.log(hitResult);
           }
        }
         
@@ -202,7 +204,7 @@ $(document).ready(()=>{
         stickmen = {};
         stickmen['stickman' + j] = new paper.Raster('stick'); 
         stickmen['stickman' + j].position = new paper.Point(current_x, 120);
-        stickmen['stickman' + j].color = char_color_dict[selected_chars[j]];
+        stickmen['stickman' + j].fillColor = char_color_dict[selected_chars[j]];
         stickmen['stickman' + j].scale(0.9);
         current_x += 120;
        }
@@ -249,15 +251,17 @@ $(document).ready(()=>{
      var savepos = document.getElementById("savepos");
      savepos.onclick = function() {
       var int_char_pos = {};
-      console.log("stickmen dictionary is");
+      console.log("STICKMEN DICT IS !!!!!!!");
       console.log(stickmen);
       for (var char = 0; char < selected_chars_list.length; char++) {
-        int_char_pos[char] = stickmen['stickman' + char].position;
-        console.log(int_char_pos[char]);
-        console.log(int_char_pos);
-        console.log(selected_chars_list);
+        int_char_pos[selected_chars_list[char]] = [stickmen['stickman' + char.toString()].position._x, stickmen['stickman' + char.toString()].position._y];
       }
+      console.log(int_char_pos);
+      all_interactions.push(int_char_pos);
       intmodal.style.display = "none";
+       
+      const context = canvas.getContext('2d');
+      context.clearRect(0, 0, canvas.width, canvas.height);
       
     }
      
