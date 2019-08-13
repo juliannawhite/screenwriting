@@ -67,10 +67,11 @@ $(document).ready(()=>{
      if (!(url.indexOf('?size=large') > -1)) {
         $("#charhelp").hide(); 
         $(".large").hide();
-        //$(".real").hide();
+       // $(".real").hide();
        $(".starter").hide(); // here
         $(".stageimg").hide();
         getColorsCreatePalette();
+       $(".be_gone").hide();
       }
   
  // input dialogue
@@ -124,9 +125,7 @@ $(document).ready(()=>{
         $(".word_area").append('<p>'+ dialOrder[line] + '</p>');
         await new Promise(resolve => setTimeout(resolve, 2000));
         console.log("here");
-        
-        //console.log(dialOrder[line]);
-        //console.log(all_interactions[line]);
+
       }
         
     }
@@ -187,16 +186,32 @@ $(document).ready(()=>{
           tools["tool" + selected_chars_list[j]] = new paper.Tool();
         }
          var tool = new paper.Tool();
-         tool.onMouseDrag = function(event) {
-          console.log("boogaloo"); // mainly happening here
+         tool.onMouseDrag = function(event) { // dragging is here
           var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
           if (hitResult && hitResult.item) {
              hitResult.item.position = event.lastPoint;
-             console.log(hitResult);
           }
        }
         
     }
+  
+    // toggle button
+  
+    var toggle_on = document.getElementById("toggle_on_btn");
+    toggle_on.onclick = function() {
+      $(".toggle-btn").empty();
+      $(".toggle-btn").append('<i class="fa fa-toggle-off toggle_off_btn"></i>&nbsp Top-Down View');
+    }
+    
+    var toggle_off = document.getElementsByClassName("toggle_off_btn");
+     toggle_off.onclick = function() {
+       console.log("off");
+       $(".toggle-btn").empty();
+       $(".toggle-btn").append('<i id="toggle_on_btn" class="fa fa-toggle-on"></i>&nbsp Front View');
+     }
+  
+  
+  
  
   
   // choosing which characters you want
@@ -216,12 +231,12 @@ $(document).ready(()=>{
       
     }
       
-   //actually drawing the stick figures
+   // actually drawing the stick figures
       
   function drawSticks() {
        var current_x = 90;
+       stickmen = {};
        for(var j = 0; j < selected_chars_list.length; j++) { 
-        stickmen = {};
         stickmen['stickman' + selected_chars_list[j]] = new paper.Raster('stick'); 
         stickmen['stickman' + selected_chars_list[j]].position = new paper.Point(current_x, 120);
         stickmen['stickman' + selected_chars_list[j]].fillColor = char_color_dict[selected_chars[j]];
@@ -229,7 +244,6 @@ $(document).ready(()=>{
         current_x += 120;
        }
   }
-  
   
   
 // MODALS
@@ -274,10 +288,9 @@ $(document).ready(()=>{
       
       for (var char = 0; char < 1; char++) {
         console.log('stickman' + selected_chars_list[char]);
-        int_char_pos[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].position._x, stickmen['stickman' + char.toString()].position._y];
+        int_char_pos[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].position._x, stickmen['stickman' + selected_chars_list[char]].position._y];
+        console.log("here");
       }
-      console.log("Stickmen" + stickmen);
-      console.log(int_char_pos);
       all_interactions.push(int_char_pos);
       intmodal.style.display = "none";
        
