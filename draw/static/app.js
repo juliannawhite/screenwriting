@@ -14,9 +14,11 @@ $(document).ready(()=>{
   
      var current_interaction = 0;
      var select_char_dict = {};
-    var selected_chars_list = [];
+     var selected_chars_list = [];
   
-    var all_interactions = [];
+     var all_interactions = [];
+     var canvas = document.getElementById('myCanvas2');
+     paper.setup(canvas);
 
   // COLOR PALETTE
   
@@ -65,8 +67,8 @@ $(document).ready(()=>{
      if (!(url.indexOf('?size=large') > -1)) {
         $("#charhelp").hide(); 
         $(".large").hide();
-        $(".real").hide();
-       //$(".starter").hide(); // here
+        //$(".real").hide();
+       $(".starter").hide(); // here
         $(".stageimg").hide();
         getColorsCreatePalette();
       }
@@ -102,19 +104,34 @@ $(document).ready(()=>{
      };
        
 // playback button
+  
+    function wait(ms) {
+      var d = new Date();
+      var d2 = null;
+      do { d2 = new Date(); }
+      while(d2-d < ms);
+      }
      
      var play= document.getElementById("play");
      var playmodal= document.getElementById("myPlayModal");
-      play.onclick = function() {
+      play.onclick = async function() {
       playmodal.style.display = "block";
+      
         
       for (var line = 0; line < charOrder.length; line++) {
-        console.log(dialOrder[line]);
-        console.log(all_interactions[line]);
+        playmodal.style.display = "block";
+        $(".word_area").empty();
+        $(".word_area").append('<p>'+ dialOrder[line] + '</p>');
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        console.log("here");
+        
+        //console.log(dialOrder[line]);
+        //console.log(all_interactions[line]);
       }
         
-      
     }
+      
+      
   
 // beginning of app 
       var nextdone = document.getElementById("next");
@@ -165,8 +182,13 @@ $(document).ready(()=>{
     function openInter() {
       intmodal.style.display = "block";
         paper.setup(canvas);
+        var tools = {};
+        for(var j = 0; j < selected_chars_list.length; j++) { 
+          tools["tool" + selected_chars_list[j]] = new paper.Tool();
+        }
          var tool = new paper.Tool();
-        tool.onMouseDrag = function(event) {
+         tool.onMouseDrag = function(event) {
+          console.log("boogaloo"); // mainly happening here
           var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
           if (hitResult && hitResult.item) {
              hitResult.item.position = event.lastPoint;
@@ -190,9 +212,7 @@ $(document).ready(()=>{
         }
       }
       charstickmodal.style.display = "none";
-       var canvas = document.getElementById('myCanvas2');
-       paper.setup(canvas);
-       drawSticks();
+      drawSticks();
       
     }
       
@@ -202,19 +222,11 @@ $(document).ready(()=>{
        var current_x = 90;
        for(var j = 0; j < selected_chars_list.length; j++) { 
         stickmen = {};
-        stickmen['stickman' + j] = new paper.Raster('stick'); 
-        stickmen['stickman' + j].position = new paper.Point(current_x, 120);
-        stickmen['stickman' + j].fillColor = char_color_dict[selected_chars[j]];
-        stickmen['stickman' + j].scale(0.9);
+        stickmen['stickman' + selected_chars_list[j]] = new paper.Raster('stick'); 
+        stickmen['stickman' + selected_chars_list[j]].position = new paper.Point(current_x, 120);
+        stickmen['stickman' + selected_chars_list[j]].fillColor = char_color_dict[selected_chars[j]];
+        stickmen['stickman' + selected_chars_list[j]].scale(0.9);
         current_x += 120;
-       }
-    
-      tool.onMouseDrag = function(event) {
-          var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
-          if (hitResult && hitResult.item) {
-             hitResult.item.position = event.lastPoint;
-             console.log(hitResult);
-          }
        }
   }
   
@@ -259,11 +271,12 @@ $(document).ready(()=>{
      var savepos = document.getElementById("savepos");
      savepos.onclick = function() {
       var int_char_pos = {};
-      console.log("STICKMEN DICT IS !!!!!!!");
-      console.log(stickmen);
-      for (var char = 0; char < selected_chars_list.length; char++) {
-        int_char_pos[selected_chars_list[char]] = [stickmen['stickman' + char.toString()].position._x, stickmen['stickman' + char.toString()].position._y];
+      
+      for (var char = 0; char < 1; char++) {
+        console.log('stickman' + selected_chars_list[char]);
+        int_char_pos[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].position._x, stickmen['stickman' + char.toString()].position._y];
       }
+      console.log("Stickmen" + stickmen);
       console.log(int_char_pos);
       all_interactions.push(int_char_pos);
       intmodal.style.display = "none";
