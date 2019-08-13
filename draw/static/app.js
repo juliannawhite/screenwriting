@@ -208,6 +208,14 @@ $(document).ready(()=>{
         stickmen['stickman' + j].scale(0.9);
         current_x += 120;
        }
+    
+      tool.onMouseDrag = function(event) {
+          var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
+          if (hitResult && hitResult.item) {
+             hitResult.item.position = event.lastPoint;
+             console.log(hitResult);
+          }
+       }
   }
   
   
