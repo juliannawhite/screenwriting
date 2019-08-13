@@ -5,18 +5,18 @@ $(document).ready(()=>{
      var socket = new WebSocket('wss://screenwriting-juliannawhite13758275.codeanyapp.com/ws/draw');
   
      var charList = [];
-  
+     var int_count = 0;
      var charOrder = [];
      var dialOrder = [];
-  
+     var stickmen = {};
      var char_color_dict = {};
-  
      var chosen_color = "black";
   
      var current_interaction = 0;
      var select_char_dict = {};
-  
     var selected_chars_list = [];
+
+  // COLOR PALETTE
   
   	 var cp = {
       history: ["#000000"], // black selected by default
@@ -31,13 +31,10 @@ $(document).ready(()=>{
     };
      
 	function createColorPalette(colors){
-        // create a swatch for each color
 	    for (var i = colors.length - 1; i >= 0; i--) {
 	        var $swatch = $("<div>").css("background-color", colors[i])
 							        .addClass("swatch");
-            $swatch.click(function(){
-				// add color to the color palette history
-              
+            $swatch.click(function(){              
 			          cp.history.push($(this).css("background-color"));
                 colorBtn.style.backgroundColor = cp.history[cp.history.length - 1];
                 chosen_color = cp.history[cp.history.length - 1];
@@ -62,7 +59,7 @@ $(document).ready(()=>{
 	}
 
      
-     // code for computer screen
+  // code for computer screen
      if (!(url.indexOf('?size=large') > -1)) {
         $("#charhelp").hide(); 
         $(".large").hide();
@@ -71,38 +68,18 @@ $(document).ready(()=>{
         $(".stageimg").hide();
         getColorsCreatePalette();
       }
-     
-     var enter = document.getElementById("enter");
-     var newchar = document.getElementById("newchargo");
-     var play= document.getElementById("play");
   
-     var addcharopt = document.getElementById("addchar");
-     
+ // input dialogue
+     var enter = document.getElementById("enter");
+  
+// new character 
+     var addcharopt = document.getElementById("addchar"); // add char
+     var newchar = document.getElementById("newchargo"); // finalize character
      addcharopt.onclick = function() {
        $("#addchar").hide();  
        $("#charHelp").show();  
-              
      }
      
-      var nextdone = document.getElementById("next");
-      nextdone.onclick = function() {
-        $(".stageimg").show();
-        $(".nameplay").hide();
-    }
-      
-      var homedone = document.getElementById("homedone");
-      homedone.onclick = function() {
-        $(".stageimg").hide();
-        $(".starter").hide();
-        $(".real").show();
-        var title = document.getElementById("title-name").value;
-        $("#title-here").append(title);
-    }
-  
-     
-  // adding character
-      // HERE
-  
      newchar.onclick = function() {    
        var newcharname = document.getElementById("newcharinput").value;
        console.log(newcharname);
@@ -121,6 +98,39 @@ $(document).ready(()=>{
        
        $("#charchoose").append('<label class="container"><input type="checkbox" checked="checked" value="' + newcharname + '"><span class="checkmark"></span>' + newcharname + '</label> <br>')
      };
+       
+// playback button
+     
+     var play= document.getElementById("play");
+     var playmodal= document.getElementById("myPlayModal");
+      play.onclick = function() {
+      playmodal.style.display = "block";
+        
+      for (var line = 0; line < charOrder.length; line++) {
+        console.log("checking");
+        console.log(dialOrder[line]);
+      }
+        
+      
+    }
+  
+// beginning of app 
+      var nextdone = document.getElementById("next");
+      nextdone.onclick = function() {
+        $(".stageimg").show();
+        $(".nameplay").hide();
+    }
+      
+      var homedone = document.getElementById("homedone");
+      homedone.onclick = function() {
+        $(".stageimg").hide();
+        $(".starter").hide();
+        $(".real").show();
+        var title = document.getElementById("title-name").value;
+        $("#title-here").append(title);
+    }
+  
+
   
   // adding dialogue
      
@@ -133,17 +143,42 @@ $(document).ready(()=>{
       var words = document.getElementById("words").value;
      
       $(".script").append('<div class = "row title dialogue"> <div class = "col-12">' + name + ": <a>" + words + '</a></div></div>');
-      $(".script").append('<div class="interaction_actual"><button class="btn"> <i class="fa fa-plus"></i></button></div>').click(function(){openInter()});
-      
+      $(".script").append('<div class="interaction_actual"><button class="btn id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').click(function(){openInter()});
+      int_count+=1;
       document.getElementById("words").value = "";
       
       charOrder.push(name);
       dialOrder.push(words);
       
+      console.log(charOrder);
+      console.log(dialOrder);
+      
      }
     
-    var selected_chars = document.getElementById("enter2");
-    selected_chars.onclick = function() {
+    
+ // INTERACTIONS
+
+    // opening the interactions modal
+    
+    function openInter() {
+      intmodal.style.display = "block";
+        var canvas = document.getElementById('myCanvas2');
+        paper.setup(canvas);
+         var tool = new paper.Tool();
+        tool.onMouseDrag = function(event) {
+          var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
+          if (hitResult && hitResult.item) {
+             hitResult.item.position = event.lastPoint;            
+          }
+       }
+        
+    }
+ 
+  
+  // choosing which characters you want
+  
+      var selected_chars = document.getElementById("chosenchars");
+      selected_chars.onclick = function() {
       selected_chars_list = [];
       var charcheck = document.forms[0];
       for (var i = 0; i < charcheck.length; i++) {
@@ -155,28 +190,27 @@ $(document).ready(()=>{
       charstickmodal.style.display = "none";
        var canvas = document.getElementById('myCanvas2');
        paper.setup(canvas);
+       drawSticks();
       
-       
-       var stickmen = {};
+    }
+      
+   //actually drawing the stick figures
+      
+  function drawSticks() {
        var current_x = 90;
        for(var j = 0; j < selected_chars_list.length; j++) { 
+        stickmen = {};
         stickmen['stickman' + j] = new paper.Raster('stick'); 
         stickmen['stickman' + j].position = new paper.Point(current_x, 120);
         stickmen['stickman' + j].color = char_color_dict[selected_chars[j]];
         stickmen['stickman' + j].scale(0.9);
         current_x += 120;
        }
-    }
-    
-    // pressing play
-    
-    play.onclick = function() {
-      
-    }
-    
-    function openInter() {
-      intmodal.style.display = "block";
-    }
+  }
+  
+  
+  
+// MODALS
      
      
      var dialmodal = document.getElementById("myDialModal");
@@ -196,6 +230,7 @@ $(document).ready(()=>{
      var charstickmodal = document.getElementById("myCharStickModal");
      var charstick = document.getElementById("charstick");
      var span4 = document.getElementById("close4");
+     var closeplay = document.getElementById("closeplay");
      
      
      dialbtn.onclick = function() {
@@ -208,44 +243,23 @@ $(document).ready(()=>{
      
      $('div.interaction_actual').click(function() {
             intmodal.style.display = "block";
-       
-     
-//      interactions[0].onclick = function() {
-//        intmodal.style.display = "block";
-//        console.log("yee");
-       
-       // characters canvas to reposition stick figures
-       
-//        var canvas = document.getElementById('myCanvas2');
-//        paper.setup(canvas);
-       
-                    
-//        var set = new Set(charOrder);
-       
-//         var tool = new paper.Tool();
-//         var colors = ["black"];
-//         tool.onMouseDrag = function(event) {
-//           var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
-//           if (hitResult && hitResult.item) {
-//             if (event.delta.y == 0) {
-//               hitResult.item = hitResult.item.scale(1.005);
-//             } else {
-//               hitResult.item.position = event.lastPoint;
-//               hitResult.item.strokeColor = colors[Math.round(colorInd) % colors.length];
-//               hitResult.item.fillColor = colors[Math.round(colorInd) % colors.length];
-//             }
-//           }
-//        }
-//        tool.onClick = function(event) {
-//          console.log("meow");
-//           var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
-//           if (hitResult && hitResult.item) {
-//             hitResult.item = hitResult.item.scale(1.2);
-//           }
-//        }
-      
-           
+       openInter();
       });
+  
+     var savepos = document.getElementById("savepos");
+     savepos.onclick = function() {
+      var int_char_pos = {};
+      console.log("stickmen dictionary is");
+      console.log(stickmen);
+      for (var char = 0; char < selected_chars_list.length; char++) {
+        int_char_pos[char] = stickmen['stickman' + char].position;
+        console.log(int_char_pos[char]);
+        console.log(int_char_pos);
+        console.log(selected_chars_list);
+      }
+      intmodal.style.display = "none";
+      
+    }
      
      charbtn.onclick = function() {
        charmodal.style.display = "block";
@@ -266,6 +280,12 @@ $(document).ready(()=>{
     
     span3.onclick = function() {
       charmodal.style.display = "none";
+      $("#addchar").show(); 
+      $("#charHelp").hide(); 
+    }
+    
+    closeplay.onclick = function() {
+      playmodal.style.display = "none";
       $("#addchar").show(); 
       $("#charHelp").hide(); 
     }

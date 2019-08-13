@@ -132,11 +132,26 @@
                  </div>
               </div>
           </div>
+           
+         <div class="col-8">
+         </div>
        
-         <div class="col-8"> </div>
+         <div class="col-2"> 
            <button class="btn finalize-btn" id="play" style = "margin-bottom:20px;"><i class="fa fa-play"></i> Playback</button>
-            <div class="col-2">
-            </div>
+           <div id="myPlayModal" class="modal">
+                <div class="modal-content">
+                  <span class="close" id="closeplay">&times;</span>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: left; height:400px;">
+                          i'm playing my words
+                        </div>
+                      </div>
+                 </div>
+              </div>
+             </div>
+          </div>
+ 
        </div>
     <div class = "row">
       <div class="col-12">
@@ -151,14 +166,13 @@
         
         <div class = "script">  
           <div class="interaction_actual">
-            <button class="btn" id="initial_interaction"> <i class="fa fa-plus"></i></button>
+            <button class="btn" id="int0"> <i class="fa fa-plus"></i></button>
           </div>
         </div>
         
         <div class="container">
                     <div class="row" style="margin-top:30px;">
             <div class="col-12" style="text-align:right;">
-              <button class="btn finalize-btn"  id="intbtn"><i class="fa fa-plus"></i> Interaction </button>
               <div id="myInteractionModal" class="modal">
                 <div class="modal-content" style="height:600px; margin-top:50px;">
                   <span class="close" id="close2">&times;</span>
@@ -179,7 +193,7 @@
                                             </div>
                                             <div class="row">
                                               <div class="col-12" style="text-align: right;">
-                                                <button class="btn"  id="enter2" style = "margin-top: 20px; text-align:right;"><i class="fa fa-check"></i> Enter</button>
+                                                <button class="btn"  id="chosenchars" style = "margin-top: 20px; text-align:right;"><i class="fa fa-check"></i> Enter</button>
                                               </div>
                                             </div>
                                           </div>
@@ -189,7 +203,7 @@
                                      </div>
                                   </div>
                         </div>
-                        <div class="col-10 instBox" style="margin-bottom:20px; text-align: center; color: lightgrey;">
+                        <div class="col-9 instBox" style="margin-bottom:20px; text-align: center; color: lightgrey;">
                           
                           Drag characters to change their position.<br>
                           
@@ -199,8 +213,8 @@
                           
                         </div>
                         
-                        <div class="col-1">
-                            <button class="btn"  id="enter3" style = "margin-top: 20px; text-align:right;"><i class="fa fa-check"></i> Enter</button>
+                        <div class="col-2">
+                            <button class="btn"  id="savepos" style = "margin-top: 20px; text-align:right;"><i class="fa fa-check"></i> Save Position</button>
                         </div>
                       </div>
                     </div>
