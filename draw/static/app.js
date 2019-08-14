@@ -160,6 +160,8 @@ $(document).ready(()=>{
         var saved_x_position;
         var saved_y_position;
        // console.log("size issss" + set_of_positions.length());
+        var position_stickmen = {};
+        var num = 0;
         for (position in set_of_positions) {
           console.log("one here");
          // console.log("this is a name" + position);
@@ -167,12 +169,11 @@ $(document).ready(()=>{
           saved_y_position = set_of_positions[position][1];
           //console.log("this is my x position " + set_of_positions[position][0]);
           //console.log("this is my y position " + set_of_positions[position][1]);
-          
-         var stickman = new paper.Raster('stick'); 
+         position_stickmen[num] = new paper.Raster('stick'); 
         // console.log("rastered");
-         stickman.position = new paper.Point(saved_x_position, saved_y_position);
+         position_stickmen[num].position = new paper.Point(saved_x_position, saved_y_position);
          //console.log("got my position");
-         
+         num+=1;
         }
         
         await new Promise(resolve => setTimeout(resolve, 2000));
@@ -397,7 +398,7 @@ $(document).ready(()=>{
      savepos.onclick = function() {
      var int_char_pos = {};
       
-     for (var char = 0; char < 1; char++) {
+     for (var char = 0; char < selected_chars_list.length; char++) {
         int_char_pos[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].position._x, stickmen['stickman' + selected_chars_list[char]].position._y];
         console.log("int char pos is " + int_char_pos);
         console.log("key of int char pos is " + selected_chars_list[char]);
@@ -406,9 +407,8 @@ $(document).ready(()=>{
         console.log("saved x position " + int_char_pos[selected_chars_list[char]][0]);
         console.log("saved y position " + int_char_pos[selected_chars_list[char]][1]);
       }
+      console.log("this should have gone twice");
       all_interactions[most_recent_inter] = int_char_pos;
-      console.log("this is what should be saving as same x and y"+all_interactions[most_recent_inter]);
-      console.log
       intmodal.style.display = "none";
       const context = canvas.getContext('2d');
       context.clearRect(0, 0, canvas.width, canvas.height);
