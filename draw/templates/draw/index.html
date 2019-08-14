@@ -92,7 +92,7 @@
   </div>
 </div>
   
-  <div class = "container computer edit real">
+  <div class = "container computer edit real dont_show">
 
          <div class="row" style="margin-top:-30px; background-color: #bdc5d5; ">
             <div class="col-2" style="text-align:right;">
@@ -103,7 +103,7 @@
                     <div class="container-fluid">
                       <div class="row">
                         <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
-                          Characters:
+                          Characters: <br> <br> Debug character
                         </div>
                       </div>
                       <div class="row">
@@ -139,7 +139,7 @@
          <div class="col-2"> 
            <button class="btn finalize-btn" id="play" style = "margin-bottom:20px;"><i class="fa fa-play"></i> Playback</button>
            <div id="myPlayModal" class="modal" style="margin-top:10px;">
-                <div class="modal-content" style="margin-top:10px;">
+                <div class="modal-content" style="margin-top:10px; height:800px;">
                   <span class="close" id="closeplay">&times;</span>
                     <div class="container-fluid">
                       <div class="row">
@@ -149,6 +149,7 @@
                               
                             </div>
                           </div>
+<!--                           <canvas id="myPlaybackCanvas" style = "width: 700px; height:450px; margin-left:90px;border: 1px black solid; text-align: center;"></canvas> -->
                         </div>
                       </div>
                  </div>
@@ -178,7 +179,7 @@
                     <div class="row" style="margin-top:30px;">
             <div class="col-12" style="text-align:right;">
               <div id="myInteractionModal" class="modal">
-                <div class="modal-content" style="height:600px; margin-top:50px;">
+                <div class="modal-content" id="add-blocking" style="height:700px; margin-top:30px;">
                   <span class="close" id="close2">&times;</span>
                     <div class="container-fluid">
                       <div class="row">
@@ -197,7 +198,7 @@
                                             <div class="col-12 instBox" style="margin-bottom:20px; text-align: center; color: black;">
                                               <a>Select which characters you would like in this interaction:</a><br>
                                               <form id = "charchoose">
-                                                
+                                                <label class="container"><input type="checkbox" checked="checked" value="debugchar"><span class="checkmark"></span>debug character</label> <br>
                                               </form>
                                             </div>
                                             <div class="row">
@@ -212,11 +213,16 @@
                                      </div>
                                   </div>
                         </div>
-                        <div class="col-9 instBox" style="margin-bottom:20px; text-align: center; color: lightgrey;">
+                        <div class="col-9 instBox" style="margin-bottom:20px; text-align: center;">
                           
-                          Drag characters to change their position.<br>
-
-                          <canvas id="myCanvas2" style = "width: 700px; height:500px;"></canvas>
+                          <a id="dragmsg" style = " color: lightgrey;">Drag characters to change their position.<br></a>
+                          <div class="word_area" style="margin-bottom:-30px;"></div >
+                         
+                          
+                          <canvas id="myCanvas2" style = "width: 700px; height:500px; background-color:white; border: 1px black solid; margin-top:70px;">
+                          
+                          
+                          </canvas>
                         </div>
                         
                         <div class="col-2">
@@ -240,6 +246,7 @@
                         <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
                           Character Name:
                           <select class = "form" name="charnamesel" id="charnamesel" size="4" style = "width: 300px; border-radius:15px;">
+                          <option value="deug"> debug character</option>'
                           </select>
                         </div>
                       </div>

@@ -4,7 +4,7 @@ $(document).ready(()=>{
      var url_large = "http://screenwriting-juliannawhite13758275.codeanyapp.com/draw/?size=large";
      var socket = new WebSocket('wss://screenwriting-juliannawhite13758275.codeanyapp.com/ws/draw');
   
-     var charList = [];
+     var charList = ["Debug Character"];
      var int_count = 0;
      var charOrder = [];
      var dialOrder = [];
@@ -15,11 +15,16 @@ $(document).ready(()=>{
      var select_char_dict = {};
      var selected_chars_list = [];
   
-     var all_interactions = [];
+     var all_interactions = {};
      var most_recent_inter = 0;
   
      var canvas = document.getElementById('myCanvas2');
      paper.setup(canvas);
+  
+//      var playcanvas = document.getElementById('myPlaybackCanvas');
+//      paper.setup(playcanvas);
+     
+     //console.log("checking here" + playcanvas);
   
      var topLayer;
      var frontLayer;
@@ -72,13 +77,17 @@ $(document).ready(()=>{
      if (!(url.indexOf('?size=large') > -1)) {
        
         $("#toggle_off_btn").hide();
-       console.log("is it working");
         $("#charhelp").hide(); 
         $(".large").hide();
-       // $(".real").hide();
-       $(".starter").hide(); // here
+        $(".real").show();
+        //$(".dont_show").hide();
+       // console.log("here");
+        $(".starter").hide(); // here
+        //$(".starter").show();
         $(".stageimg").hide();
         getColorsCreatePalette();
+        
+       //$("#myCanvas2").show();
        
       }
   
@@ -113,29 +122,55 @@ $(document).ready(()=>{
      };
        
 // playback button
-  
-    function wait(ms) {
-      var d = new Date();
-      var d2 = null;
-      do { d2 = new Date(); }
-      while(d2-d < ms);
-      }
      
      var play= document.getElementById("play");
      var playmodal= document.getElementById("myPlayModal");
       play.onclick = async function() {
-      playmodal.style.display = "block";
-      
+      intmodal.style.display = "block";
+      $("#myCanvas2").show();
+      $('#toggle_on_btn').hide();
+      $('#toggle_off_btn').hide();
+      $('#charstick').hide();
+      $('#savepos').hide();
+      $('#dragmsg').hide();
+      $('.word_area').show();
+        
         
       for (var line = 0; line < charOrder.length; line++) {
         $(".word_area").empty();
         $(".word_area").css("color", char_color_dict[charOrder[line]]);
         $(".word_area").append('<p>'+ dialOrder[line] + '</p>');
         await new Promise(resolve => setTimeout(resolve, 2000));
-        console.log("here");
-
       }
+      
+      var interaction;
+      for (interaction in all_interactions) {
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        //console.log("this should be a number " + interaction); 
+        var set_of_positions = all_interactions[interaction];
+        var position;
+        var saved_x_position;
+        var saved_y_position;
+        console.log("size issss" + set_of_positions.length());
+        for (position in set_of_positions) {
+          console.log("one here");
+         // console.log("this is a name" + position);
+          saved_x_position = set_of_positions[position][0];
+          saved_y_position = set_of_positions[position][1];
+          //console.log("this is my x position " + set_of_positions[position][0]);
+          //console.log("this is my y position " + set_of_positions[position][1]);
+          
+         var stickman = new paper.Raster('stick'); 
+        // console.log("rastered");
+         stickman.position = new paper.Point(saved_x_position, saved_y_position);
+         //console.log("got my position");
+        }
         
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+      }
+                
     }
       
       
@@ -153,7 +188,10 @@ $(document).ready(()=>{
         $(".starter").hide();
         $(".real").show();
         var title = document.getElementById("title-name").value;
+        var imgUrl =  document.getElementById("stage").value;
         $("#title-here").append(title);
+        document.getElementById("add-blocking").style.backgroundImage = "url(" + imgUrl + ")";
+        document.getElementById("add-blocking").style.backgroundPosition = "center center";
     }
   
 
@@ -172,14 +210,10 @@ $(document).ready(()=>{
       $(".script").append('<div class="interaction_actual"><button class="btn" id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').click(function(){openInter()});
       int_count+=1;
       document.getElementById("words").value = "";
-      
-      console.log('<div class="interaction_actual"><button class="btn" value='+ int_count + ' id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>');
-      
+            
       charOrder.push(name);
       dialOrder.push(words);
-      
-      console.log(charOrder);
-      console.log(dialOrder);
+  
       
      }
     
@@ -192,12 +226,21 @@ $(document).ready(()=>{
       
         intmodal.style.display = "block";
         //context.clearRect(0, 0, canvas.width, canvas.height);
+        $("#myCanvas2").show();
+        $('#toggle_on_btn').show();
+        $('#toggle_off_btn').hide();
+        $('#charstick').show();
+        $('#savepos').show();
+        $('#dragmsg').show();
+        $('.word_area').hide();
       
         paper.setup(canvas);
         topLayer = new paper.Layer();
         frontLayer = new paper.Layer();
         
-        most_recent_inter = $(this).value;
+      
+        most_recent_inter = int_count;//$(this).value; // if this was working this would be fine 
+      
         console.log("interaction button number" + most_recent_inter);
       
          var tool = new paper.Tool();
@@ -347,13 +390,18 @@ $(document).ready(()=>{
      var int_char_pos = {};
       
      for (var char = 0; char < 1; char++) {
-        console.log('stickman' + selected_chars_list[char]);
         int_char_pos[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].position._x, stickmen['stickman' + selected_chars_list[char]].position._y];
-        console.log("here");
+        console.log("int char pos is " + int_char_pos);
+        console.log("key of int char pos is " + selected_chars_list[char]);
+        console.log("value of the key is " + int_char_pos[selected_chars_list[char]]);
+        
+        console.log("saved x position " + int_char_pos[selected_chars_list[char]][0]);
+        console.log("saved y position " + int_char_pos[selected_chars_list[char]][1]);
       }
-      all_interactions.push(int_char_pos);
+      all_interactions[most_recent_inter] = int_char_pos;
+      console.log("this is what should be saving as same x and y"+all_interactions[most_recent_inter]);
+      console.log
       intmodal.style.display = "none";
-       
       const context = canvas.getContext('2d');
       context.clearRect(0, 0, canvas.width, canvas.height);
       
@@ -390,6 +438,8 @@ $(document).ready(()=>{
       playmodal.style.display = "none";
       $("#addchar").show(); 
       $("#charHelp").hide(); 
+//       const context = playcanvas.getContext('2d');
+//       context.clearRect(0, 0, playcanvas.width, playcanvas.height);
     }
     
 
