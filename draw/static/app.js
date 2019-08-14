@@ -12,13 +12,18 @@ $(document).ready(()=>{
      var char_color_dict = {};
      var chosen_color = "black";
   
-     var current_interaction = 0;
      var select_char_dict = {};
      var selected_chars_list = [];
   
      var all_interactions = [];
+     var most_recent_inter = 0;
+  
      var canvas = document.getElementById('myCanvas2');
      paper.setup(canvas);
+  
+     var topLayer;
+     var frontLayer;
+     var selectedFigure;
 
   // COLOR PALETTE
   
@@ -164,9 +169,11 @@ $(document).ready(()=>{
       var words = document.getElementById("words").value;
      
       $(".script").append('<div class = "row title dialogue"> <div class = "col-12">' + name + ": <a>" + words + '</a></div></div>');
-      $(".script").append('<div class="interaction_actual"><button class="btn id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').click(function(){openInter()});
+      $(".script").append('<div class="interaction_actual"><button class="btn" id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').click(function(){openInter()});
       int_count+=1;
       document.getElementById("words").value = "";
+      
+      console.log('<div class="interaction_actual"><button class="btn" value='+ int_count + ' id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>');
       
       charOrder.push(name);
       dialOrder.push(words);
@@ -182,17 +189,50 @@ $(document).ready(()=>{
     // opening the interactions modal
     
     function openInter() {
-      intmodal.style.display = "block";
+      
+        intmodal.style.display = "block";
+        //context.clearRect(0, 0, canvas.width, canvas.height);
+      
         paper.setup(canvas);
-        var tools = {};
-        for(var j = 0; j < selected_chars_list.length; j++) { 
-          tools["tool" + selected_chars_list[j]] = new paper.Tool();
-        }
+        topLayer = new paper.Layer();
+        frontLayer = new paper.Layer();
+        
+        most_recent_inter = $(this).value;
+        console.log("interaction button number" + most_recent_inter);
+      
          var tool = new paper.Tool();
-         tool.onMouseDrag = function(event) { // dragging is here
-          var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 30, fill: true});
-          if (hitResult && hitResult.item) {
-             hitResult.item.position = event.lastPoint;
+         tool.onMouseDown = function(event) {
+           var hitResult = paper.project.hitTest(event.point, {segments: true, tolerance: 15, fill: true});
+           if (hitResult && hitResult.item) {
+             if (selectedFigure && selectedFigure.selected) {
+                selectedFigure.selected = false;
+             }
+             selectedFigure = hitResult.item;
+             selectedFigure.selected = true;
+           }
+         }
+         tool.onMouseDrag = function(event) {
+          //console.log("boogaloo"); // mainly happening here
+          var hitResult = paper.project.hitTestAll(event.point, {segments: true, tolerance: 15, fill: true});
+          var hitItem;
+          if (!hitResult) {
+             return;
+           }
+          for (var i = 0; i < hitResult.length; i++) {
+            if (hitResult[i] && hitResult[i].item) {
+               if (hitResult[i].item.selected) { 
+                 hitItem = hitResult[i].item;
+                 break; 
+               }
+            }
+          }
+          if (hitItem) {
+              hitItem.position.x = event.lastPoint.x;
+              hitItem.scale(1 - (event.delta.y/200)); //there may be a better way to do this but it seems to work fine
+              //topLayer.visible = true; // basically all you need to do for view change is hide one of the layers, it all works identically
+              topLayer.activate();
+              hitItem.data.head.position = event.lastPoint;
+              frontLayer.activate(); 
           }
        }
         
@@ -205,6 +245,10 @@ $(document).ready(()=>{
       console.log("pressed on");
       $("#toggle_off_btn").show();
       $("#toggle_on_btn").hide();
+      
+      topLayer.visible = true;
+      frontLayer.visible = false;
+      
     }
     
     var toggle_off = document.getElementById("toggle_off_btn");
@@ -212,6 +256,9 @@ $(document).ready(()=>{
        console.log("pressed off");
        $("#toggle_off_btn").hide();
        $("#toggle_on_btn").show();
+       
+       topLayer.visible = false;
+       frontLayer.visible = true;
      }
   
   
@@ -238,14 +285,23 @@ $(document).ready(()=>{
    // actually drawing the stick figures
       
   function drawSticks() {
-       var current_x = 90;
        stickmen = {};
+       var current_x = 90;
        for(var j = 0; j < selected_chars_list.length; j++) { 
-        stickmen['stickman' + selected_chars_list[j]] = new paper.Raster('stick'); 
-        stickmen['stickman' + selected_chars_list[j]].position = new paper.Point(current_x, 120);
-        stickmen['stickman' + selected_chars_list[j]].fillColor = char_color_dict[selected_chars[j]];
-        stickmen['stickman' + selected_chars_list[j]].scale(0.9);
-        current_x += 120;
+          frontLayer.activate();
+          stickmen['stickman' + selected_chars_list[j]] = new paper.Raster('stick'); 
+          stickmen['stickman' + selected_chars_list[j]].position = new paper.Point(current_x, 150);
+          stickmen['stickman' + selected_chars_list[j]].strokeColor = char_color_dict[selected_chars[j]];
+
+          topLayer.activate();
+          stickmen['stickman' + selected_chars_list[j]].data.head = new paper.Raster('stick'); 
+          stickmen['stickman' + selected_chars_list[j]].data.head.position = new paper.Point(current_x, 150);
+          stickmen['stickman' + selected_chars_list[j]].data.head.scale(0.3);
+          stickmen['stickman' + selected_chars_list[j]].data.head.strokeColor = char_color_dict[selected_chars[j]];
+          current_x += 120;
+          topLayer.visible = false;
+          frontLayer.visible = true;
+          frontLayer.activate();
        }
   }
   
@@ -288,9 +344,9 @@ $(document).ready(()=>{
   
      var savepos = document.getElementById("savepos");
      savepos.onclick = function() {
-      var int_char_pos = {};
+     var int_char_pos = {};
       
-      for (var char = 0; char < 1; char++) {
+     for (var char = 0; char < 1; char++) {
         console.log('stickman' + selected_chars_list[char]);
         int_char_pos[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].position._x, stickmen['stickman' + selected_chars_list[char]].position._y];
         console.log("here");
@@ -302,6 +358,10 @@ $(document).ready(()=>{
       context.clearRect(0, 0, canvas.width, canvas.height);
       
     }
+     
+     
+     
+     
      
      charbtn.onclick = function() {
        charmodal.style.display = "block";
