@@ -65,13 +65,16 @@ $(document).ready(()=>{
      
   // code for computer screen
      if (!(url.indexOf('?size=large') > -1)) {
+       
+        $("#toggle_off_btn").hide();
+       console.log("is it working");
         $("#charhelp").hide(); 
         $(".large").hide();
        // $(".real").hide();
        $(".starter").hide(); // here
         $(".stageimg").hide();
         getColorsCreatePalette();
-       $(".be_gone").hide();
+       
       }
   
  // input dialogue
@@ -198,16 +201,17 @@ $(document).ready(()=>{
     // toggle button
   
     var toggle_on = document.getElementById("toggle_on_btn");
-    toggle_on.onclick = function() {
-      $(".toggle-btn").empty();
-      $(".toggle-btn").append('<i class="fa fa-toggle-off toggle_off_btn"></i>&nbsp Top-Down View');
+    toggle_on.onclick = function() { // switch to top-down
+      console.log("pressed on");
+      $("#toggle_off_btn").show();
+      $("#toggle_on_btn").hide();
     }
     
-    var toggle_off = document.getElementsByClassName("toggle_off_btn");
-     toggle_off.onclick = function() {
-       console.log("off");
-       $(".toggle-btn").empty();
-       $(".toggle-btn").append('<i id="toggle_on_btn" class="fa fa-toggle-on"></i>&nbsp Front View');
+    var toggle_off = document.getElementById("toggle_off_btn");
+     toggle_off.onclick = function() { // switch to front view
+       console.log("pressed off");
+       $("#toggle_off_btn").hide();
+       $("#toggle_on_btn").show();
      }
   
   
