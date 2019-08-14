@@ -21,6 +21,11 @@ $(document).ready(()=>{
      var canvas = document.getElementById('myCanvas2');
      paper.setup(canvas);
   
+     var chosen_one;
+ 
+ 
+    
+  
 //      var playcanvas = document.getElementById('myPlaybackCanvas');
 //      paper.setup(playcanvas);
      
@@ -95,7 +100,7 @@ $(document).ready(()=>{
   
  // input dialogue
      var enter = document.getElementById("enter");
-  
+    
 // new character 
      var addcharopt = document.getElementById("addchar"); // add char
      var newchar = document.getElementById("newchargo"); // finalize character
@@ -152,7 +157,8 @@ $(document).ready(()=>{
       
       var interaction;
       for (interaction in all_interactions) {
-        
+//         const context = canvas.getContext('2d');
+//         context.clearRect(0, 0, canvas.width, canvas.height);
         //console.log("this should be a number " + interaction); 
         var set_of_positions = all_interactions[interaction];
         var position;
@@ -175,9 +181,7 @@ $(document).ready(()=>{
          num+=1;
         }
         
-        await new Promise(resolve => setTimeout(resolve, 2000)); // this is going once everything is done
-        const context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        await new Promise(resolve => setTimeout(resolve, 2000));
         
       }
                 
@@ -217,7 +221,7 @@ $(document).ready(()=>{
       var words = document.getElementById("words").value;
      
       $(".script").append('<div class = "row title dialogue"> <div class = "col-12">' + name + ": <a>" + words + '</a></div></div>');
-      $(".script").append('<div class="interaction_actual"><button class="btn" id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').click(function(){openInter()});
+      $(".script").append('<div class="interaction_actual get_val"><button class="btn" id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').click(function(){openInter(int_count)});
       int_count+=1;
       document.getElementById("words").value = "";
             
@@ -232,7 +236,17 @@ $(document).ready(()=>{
 
     // opening the interactions modal
     
-    function openInter() {
+   var int0 = document.getElementById("int0");
+    int0.onclick = function() {
+      openInter(0);
+   }
+    
+    function openInter(intnumber) {
+            
+        if (intnumber!=undefined) {
+          most_recent_inter = intnumber;
+//           alert(intnumber);
+        }
       
         intmodal.style.display = "block";
         //context.clearRect(0, 0, canvas.width, canvas.height);
