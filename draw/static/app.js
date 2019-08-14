@@ -29,6 +29,8 @@ $(document).ready(()=>{
      var topLayer;
      var frontLayer;
      var selectedFigure;
+  
+     var playbackLayer;
 
   // COLOR PALETTE
   
@@ -134,6 +136,11 @@ $(document).ready(()=>{
       $('#savepos').hide();
       $('#dragmsg').hide();
       $('.word_area').show();
+      topLayer.visible = false;
+      frontLayer.visible = false;
+      playbackLayer = new paper.Layer();
+      playbackLayer.activate();
+      playbackLayer.visble = true;
         
         
       for (var line = 0; line < charOrder.length; line++) {
@@ -152,7 +159,7 @@ $(document).ready(()=>{
         var position;
         var saved_x_position;
         var saved_y_position;
-        console.log("size issss" + set_of_positions.length());
+       // console.log("size issss" + set_of_positions.length());
         for (position in set_of_positions) {
           console.log("one here");
          // console.log("this is a name" + position);
@@ -165,6 +172,7 @@ $(document).ready(()=>{
         // console.log("rastered");
          stickman.position = new paper.Point(saved_x_position, saved_y_position);
          //console.log("got my position");
+         
         }
         
         await new Promise(resolve => setTimeout(resolve, 2000));
