@@ -152,8 +152,7 @@ $(document).ready(()=>{
       
       var interaction;
       for (interaction in all_interactions) {
-        const context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        
         //console.log("this should be a number " + interaction); 
         var set_of_positions = all_interactions[interaction];
         var position;
@@ -176,7 +175,9 @@ $(document).ready(()=>{
          num+=1;
         }
         
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 2000)); // this is going once everything is done
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
         
       }
                 
@@ -407,7 +408,6 @@ $(document).ready(()=>{
         console.log("saved x position " + int_char_pos[selected_chars_list[char]][0]);
         console.log("saved y position " + int_char_pos[selected_chars_list[char]][1]);
       }
-      console.log("this should have gone twice");
       all_interactions[most_recent_inter] = int_char_pos;
       intmodal.style.display = "none";
       const context = canvas.getContext('2d');
