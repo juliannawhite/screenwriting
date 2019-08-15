@@ -15,7 +15,10 @@ $(document).ready(()=>{
      var selected_chars_list = [];
   
      var all_interactions = {};
+     var top_interactions = {};
      var most_recent_inter = 0;
+  
+     var front_view_play = true;
   
      var canvas = document.getElementById('myCanvas2');
      paper.setup(canvas);
@@ -39,6 +42,7 @@ $(document).ready(()=>{
     colorBtn.onclick = function() {
         $("#popcp").fadeTo("fast", 1);
     };
+  
      
 	function createColorPalette(colors){
 	    for (var i = colors.length - 1; i >= 0; i--) {
@@ -73,6 +77,8 @@ $(document).ready(()=>{
 //      if (!(url.indexOf('?size=large') > -1)) {
 //         $
         $("#toggle_off_btn").hide();
+        $("#toggle_off_btn2").hide();
+        $("#toggle_on_btn2").hide();
         $("#charhelp").hide(); 
         $(".large").hide();
         //$(".real").hide();
@@ -124,6 +130,8 @@ $(document).ready(()=>{
      var play= document.getElementById("play");
      var playmodal= document.getElementById("myPlayModal");
       play.onclick = async function() {
+      $("#toggle_on_btn2").show();
+      $("#toggle_off_btn2").hide();
       const context = canvas.getContext('2d');
       context.clearRect(0, 0, canvas.width, canvas.height);
       intmodal.style.display = "block";
@@ -139,7 +147,10 @@ $(document).ready(()=>{
       playbackLayer = new paper.Layer();
       playbackLayer.activate();
       playbackLayer.visble = true;
-        
+      
+      if (!front_view_play) {
+        alert("you want the top down view");
+      } else {
         
       for (var line = 0; line <= charOrder.length; line++) { // will eventually need to make this <=
         
@@ -173,6 +184,7 @@ $(document).ready(()=>{
         $(".word_area").append('<p>'+ dialOrder[line] + '</p>');
         await new Promise(resolve => setTimeout(resolve, 2000));
         }
+      }
       }
       }
   
@@ -247,6 +259,8 @@ $(document).ready(()=>{
         $('#savepos').show();
         $('#dragmsg').show();
         $('.word_area').hide();
+        $("#toggle_off_btn2").hide();
+        $("#toggle_on_btn2").hide();
       
         paper.setup(canvas);
         topLayer = new paper.Layer();
@@ -298,17 +312,25 @@ $(document).ready(()=>{
       openInter($(this).attr('value'));
    }
   
-    // toggle button
+    // toggle buttons
   
     var toggle_on = document.getElementById("toggle_on_btn");
     toggle_on.onclick = function() { // switch to top-down
-      console.log("pressed on");
       $("#toggle_off_btn").show();
       $("#toggle_on_btn").hide();
       
       topLayer.visible = true;
       frontLayer.visible = false;
+    }
+    
+    var toggle_on2 = document.getElementById("toggle_on_btn2");
+    toggle_on2.onclick = function() { // switch to top-down
+      $("#toggle_off_btn2").show();
+      $("#toggle_on_btn2").hide();
+      front_view_play = false;
       
+//       topLayer.visible = true;
+//       frontLayer.visible = false;
     }
     
     var toggle_off = document.getElementById("toggle_off_btn");
@@ -319,6 +341,15 @@ $(document).ready(()=>{
        
        topLayer.visible = false;
        frontLayer.visible = true;
+     }
+     
+    var toggle_off2 = document.getElementById("toggle_off_btn2");
+     toggle_off2.onclick = function() { // switch to front view
+       $("#toggle_off_btn2").hide();
+       $("#toggle_on_btn2").show();
+       front_view_play = true;
+       //topLayer.visible = false;
+       //frontLayer.visible = true;
      }
   
   
@@ -405,17 +436,14 @@ $(document).ready(()=>{
      var savepos = document.getElementById("savepos");
      savepos.onclick = function() {
      var int_char_pos = {};
+     var int_char_top = {};
       
      for (var char = 0; char < selected_chars_list.length; char++) {
         int_char_pos[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].position._x, stickmen['stickman' + selected_chars_list[char]].position._y];
-        console.log("int char pos is " + int_char_pos);
-        console.log("key of int char pos is " + selected_chars_list[char]);
-        console.log("value of the key is " + int_char_pos[selected_chars_list[char]]);
-        
-        console.log("saved x position " + int_char_pos[selected_chars_list[char]][0]);
-        console.log("saved y position " + int_char_pos[selected_chars_list[char]][1]);
+        int_char_top[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].data.head.position._x, stickmen['stickman' + selected_chars_list[char]].data.head.position._y];
       }
       all_interactions[most_recent_inter] = int_char_pos;
+      top_interactions[most_recent_inter] = int_char_top;
       intmodal.style.display = "none";
       const context = canvas.getContext('2d');
       context.clearRect(0, 0, canvas.width, canvas.height);
@@ -453,6 +481,8 @@ $(document).ready(()=>{
       playmodal.style.display = "none";
       $("#addchar").show(); 
       $("#charHelp").hide(); 
+      $("#toggle_off_btn2").hide();
+      $("#toggle_on_btn2").hide();
     }
     
 

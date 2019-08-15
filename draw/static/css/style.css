@@ -50,6 +50,7 @@
       text-align: left;
       font-size: 30px;
       margin-left: 20px;
+      margin-top:-20px;
     }
 
     .large {
@@ -182,7 +183,7 @@
 }
 
 .title-page {
-   font-size:70px;
+   font-size:60px;
    color: #4b618c;
    font-family: “Montserrat”;
    background-color: #faf7df;
