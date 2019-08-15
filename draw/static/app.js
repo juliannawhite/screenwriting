@@ -2,10 +2,9 @@ $(document).ready(()=>{
      
      var url = window.location.href;
      var url_large = "http://screenwriting-juliannawhite13758275.codeanyapp.com/draw/?size=large";
-     var socket = new WebSocket('wss://screenwriting-juliannawhite13758275.codeanyapp.com/ws/draw');
   
      var charList = ["Debug Character"];
-     var int_count = 0;
+     var int_count = 1;
      var charOrder = [];
      var dialOrder = [];
      var stickmen = {};
@@ -21,18 +20,13 @@ $(document).ready(()=>{
      var canvas = document.getElementById('myCanvas2');
      paper.setup(canvas);
   
-     var chosen_one;
- 
- 
-    
-  
 //      var playcanvas = document.getElementById('myPlaybackCanvas');
 //      paper.setup(playcanvas);
      
      //console.log("checking here" + playcanvas);
   
-     var topLayer;
-     var frontLayer;
+     var topLayer = new paper.Layer();
+     var frontLayer = new paper.Layer();
      var selectedFigure;
   
      var playbackLayer;
@@ -148,44 +142,64 @@ $(document).ready(()=>{
       playbackLayer.visble = true;
         
         
-      for (var line = 0; line < charOrder.length; line++) {
+      for (var line = 0; line < charOrder.length; line++) { // will eventually need to make this <=
+        
+        if (line in Object.keys(all_interactions )) { // need to change the stick figures
+          //clear
+          const context = canvas.getContext('2d');
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          
+          var stick_list = all_interactions[line];
+          var stick;
+          var num = 0;
+          var position_stickmen = {};
+          for (stick in stick_list) {
+            console.log("saving stick as" + stick);
+            var saved_x_position = stick_list[stick][0];
+            var saved_y_position = stick_list[stick][1];
+            position_stickmen[num] = new paper.Raster('stick'); 
+            position_stickmen[num].position = new paper.Point(saved_x_position, saved_y_position);
+            num+=1;
+            
+          }
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+        
         $(".word_area").empty();
         $(".word_area").css("color", char_color_dict[charOrder[line]]);
         $(".word_area").append('<p>'+ dialOrder[line] + '</p>');
         await new Promise(resolve => setTimeout(resolve, 2000));
       }
-      
-      var interaction;
-      for (interaction in all_interactions) {
-//         const context = canvas.getContext('2d');
-//         context.clearRect(0, 0, canvas.width, canvas.height);
-        //console.log("this should be a number " + interaction); 
-        var set_of_positions = all_interactions[interaction];
-        var position;
-        var saved_x_position;
-        var saved_y_position;
-       // console.log("size issss" + set_of_positions.length());
-        var position_stickmen = {};
-        var num = 0;
-        for (position in set_of_positions) {
-          console.log("one here");
-         // console.log("this is a name" + position);
-          saved_x_position = set_of_positions[position][0];
-          saved_y_position = set_of_positions[position][1];
-          //console.log("this is my x position " + set_of_positions[position][0]);
-          //console.log("this is my y position " + set_of_positions[position][1]);
-         position_stickmen[num] = new paper.Raster('stick'); 
-        // console.log("rastered");
-         position_stickmen[num].position = new paper.Point(saved_x_position, saved_y_position);
-         //console.log("got my position");
-         num+=1;
-        }
-        
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
       }
+      
+//       var interaction;
+//       for (interaction in all_interactions) {
+//         //console.log("this should be a number " + interaction); 
+//         var set_of_positions = all_interactions[interaction];
+//         var position;
+//         var saved_x_position;
+//         var saved_y_position;
+//        // console.log("size issss" + set_of_positions.length());
+//         var position_stickmen = {};
+//         var num = 0;
+//         for (position in set_of_positions) {
+//           console.log("one here");
+//          // console.log("this is a name" + position);
+//           saved_x_position = set_of_positions[position][0];
+//           saved_y_position = set_of_positions[position][1];
+//           //console.log("this is my x position " + set_of_positions[position][0]);
+//           //console.log("this is my y position " + set_of_positions[position][1]);
+//          position_stickmen[num] = new paper.Raster('stick'); 
+//         // console.log("rastered");
+//          position_stickmen[num].position = new paper.Point(saved_x_position, saved_y_position);
+//          //console.log("got my position");
+//          num+=1;
+//         }
+        
+//         await new Promise(resolve => setTimeout(resolve, 2000));
+        
+//       }
                 
-    }
       
       
   
@@ -221,7 +235,15 @@ $(document).ready(()=>{
       var words = document.getElementById("words").value;
      
       $(".script").append('<div class = "row title dialogue"> <div class = "col-12">' + name + ": <a>" + words + '</a></div></div>');
-      $(".script").append('<div class="interaction_actual get_val"><button class="btn" id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').click(function(){openInter(int_count)});
+      //$(".script").append();
+      $('<div class="interaction_actual get_val" value="'+int_count+'"><button class="btn" value="' + int_count + '" id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').appendTo(".script").click(function(){openInter($(this).attr('value'))});
+      //$('<div class="interaction_actual get_val"><button class="btn" value="' + int_count + '" id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').appendTo(".script").click(function(){openInter(int_count)});
+      
+      
+      
+      //$( '<div class="interaction_actual get_val"><button class="btn" value="' + int_count + '" id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').click(function(){openInter($(this).attr('value'))}).appendTo(".script");
+
+      console.log(int_count)
       int_count+=1;
       document.getElementById("words").value = "";
             
@@ -236,17 +258,12 @@ $(document).ready(()=>{
 
     // opening the interactions modal
     
-   var int0 = document.getElementById("int0");
-    int0.onclick = function() {
-      openInter(0);
-   }
+
     
     function openInter(intnumber) {
-            
-        if (intnumber!=undefined) {
-          most_recent_inter = intnumber;
-//           alert(intnumber);
-        }
+        console.log("one call");
+        most_recent_inter = intnumber;
+
       
         intmodal.style.display = "block";
         //context.clearRect(0, 0, canvas.width, canvas.height);
@@ -261,11 +278,9 @@ $(document).ready(()=>{
         paper.setup(canvas);
         topLayer = new paper.Layer();
         frontLayer = new paper.Layer();
-        
-      
-        most_recent_inter = int_count;//$(this).value; // if this was working this would be fine 
-      
+         
         console.log("interaction button number" + most_recent_inter);
+        console.log("my int number was" + intnumber);
       
          var tool = new paper.Tool();
          tool.onMouseDown = function(event) {
@@ -304,6 +319,11 @@ $(document).ready(()=>{
        }
         
     }
+  
+   var int0 = document.getElementById("int0");
+    int0.onclick = function() {
+      openInter($(this).attr('value'));
+   }
   
     // toggle button
   
@@ -404,10 +424,10 @@ $(document).ready(()=>{
        charstickmodal.style.display = "block";
       }
      
-     $('div.interaction_actual').click(function() {
-            intmodal.style.display = "block";
-       openInter();
-      });
+//      $('.interaction_actual').click(function() {
+//             intmodal.style.display = "block";
+//        openInter();
+//       });
   
      var savepos = document.getElementById("savepos");
      savepos.onclick = function() {
