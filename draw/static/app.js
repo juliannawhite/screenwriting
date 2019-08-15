@@ -381,14 +381,18 @@ $(document).ready(()=>{
        for(var j = 0; j < selected_chars_list.length; j++) { 
           frontLayer.activate();
           stickmen['stickman' + selected_chars_list[j]] = new paper.Raster('stick'); 
+          
           stickmen['stickman' + selected_chars_list[j]].position = new paper.Point(current_x, 250);
-          stickmen['stickman' + selected_chars_list[j]].strokeColor = char_color_dict[selected_chars[j]];
+          var name = Object.keys(char_color_dict)[j];
+          stickmen['stickman' + selected_chars_list[j]].fillColor = char_color_dict[name];
+          console.log("dictionary is" + char_color_dict);
+          console.log("weird color " + char_color_dict[name]);
 
           topLayer.activate();
           stickmen['stickman' + selected_chars_list[j]].data.head = new paper.Raster('stick'); 
           stickmen['stickman' + selected_chars_list[j]].data.head.position = new paper.Point(current_x, 250);
           stickmen['stickman' + selected_chars_list[j]].data.head.scale(0.3);
-          stickmen['stickman' + selected_chars_list[j]].data.head.strokeColor = char_color_dict[selected_chars[j]];
+          stickmen['stickman' + selected_chars_list[j]].data.head.fillColor = char_color_dict[name];
           current_x += 120;
           topLayer.visible = false;
           frontLayer.visible = true;
