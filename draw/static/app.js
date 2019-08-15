@@ -88,11 +88,11 @@ $(document).ready(()=>{
         $("#toggle_on_btn2").hide();
         $("#charhelp").hide(); 
         $(".large").hide();
-        //$(".real").hide();
-        $(".real").show();
+        $(".real").hide();
+        //$(".real").show();
        // console.log("here");
-        $(".starter").hide(); // here
-        //$(".starter").show();
+        //$(".starter").hide(); // here
+        $(".starter").show();
        
         $(".stageimg").hide();
         getColorsCreatePalette();

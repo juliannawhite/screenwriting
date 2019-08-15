@@ -22,7 +22,19 @@
 
   <img id="stick" class="visuallyhidden" src="https://i.ibb.co/3fcDDXn/Artboard-1.png" width="320" height="491"> 
   
-
+<!-- <?xml version="1.0” encoding=“utf-8"?>
+<svg version=“1.1”
+     id="svg2" xmlns:cc=“http://web.resource.org/cc/” xmlns:dc=“http://purl.org/dc/elements/1.1/” xmlns:inkscape=“http://www.inkscape.org/namespaces/inkscape” xmlns:rdf=“http://www.w3.org/1999/02/22-rdf-syntax-ns#” xmlns:sodipodi=“http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd” xmlns:svg=“http://www.w3.org/2000/svg”
+     xmlns=“http://www.w3.org/2000/svg” xmlns:xlink=“http://www.w3.org/1999/xlink” x=“0px” y=“0px” viewBox=“0 0 170 240”
+     style=“enable-background:new 0 0 170 240;” xml:space=“preserve”>
+<style type=“text/css”>
+    .st0{fill:#FFFFFF;stroke:#000000;stroke-width:3;stroke-miterlimit:10;}
+</style>
+<sodipodi:namedview  bordercolor=“#666666” borderopacity="1.0" gridtolerance=“10000” guidetolerance="10" height=“240px” id=“base” inkscape:current-layer=“layer2” inkscape:cx="54.676472" inkscape:cy=“97.499992” inkscape:document-units=“px” inkscape:grid-points=“false” inkscape:guide-points=“false” inkscape:object-bbox=“true” inkscape:object-nodes=“true” inkscape:object-points=“true” inkscape:pageopacity="0.0" inkscape:pageshadow=“2” inkscape:window-height="693" inkscape:window-width=“1024” inkscape:window-x="0" inkscape:window-y=“25” inkscape:zoom="2.4564104" objecttolerance=“10” pagecolor=“#ffffff” showgrid=“false” width=“170px”>
+    </sodipodi:namedview>
+<path class=“st0” d=“M102.4,130.7l13.5,85.8l-31.5-41.7l-28.6,41.7l9.8-85.7l-34.2,6.8l41.1-49.2c-7.6-6.6-12.7-19.3-12.7-33.7
+    c0-21.3,10.9-30.8,24.7-30.8s25,9,25,30.4c0,13.7-4.5,25.7-11.5,32.5l41.2,54.4L102.4,130.7z”/>
+</svg> -->
   
   <div class=" container starter ask">
   
@@ -94,9 +106,9 @@
 </div>
   <div class="container-fluid">
         <div class = "row" style = "margin-top:10px;">
-          <div class = "col-12 title title-page " id = "title-here">
+          <div class = "col-12 title title-page " >
             <button class="btn finalize-btn" id="charbtn" style = "margin-bottom:20px; font-family:'Helvetica Neue'"><i class="fa fa-group"></i> Characters</button>
-            <a style="margin-left:80px; font-size:60px; margin-right:80px;">TITLE OF THE PLAY</a>
+            <a style="margin-left:80px; font-size:60px; margin-right:80px;" id = "title-here"></a>
             <button class="btn finalize-btn" id="play" style = "margin-bottom:20px; font-family:'Helvetica Neue'"><i class="fa fa-play"></i> Playback</button>
           </div>
         </div>
@@ -113,7 +125,7 @@
                     <div class="container-fluid">
                       <div class="row">
                         <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
-                          Characters: <br><button class="colorBtn2" style="background-color:pink"></button>&nbsp Debug character<br> 
+                          Characters: <br>
                         </div>
                       </div>
                       <div class="row">
@@ -198,7 +210,6 @@
                                             <div class="col-12 instBox" style="margin-bottom:20px; text-align: center; color: #4b618c;">
                                               <a>Select which characters you would like in this interaction:</a><br>
                                               <form id = "charchoose">
-                                                <label class="container"><input type="checkbox" checked="checked" value="debugchar"><span class="checkmark"></span>debug character</label> <br>
                                               </form>
                                             </div>
                                             <div class="row">
@@ -254,7 +265,7 @@
                         <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
                           Character Name:
                           <select class = "form" name="charnamesel" id="charnamesel" size="4" style = "width: 300px; border-radius:15px;">
-                          <option value="debug"> debug character</option>'
+                          
                           </select>
                         </div>
                       </div>
