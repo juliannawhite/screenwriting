@@ -20,11 +20,6 @@ $(document).ready(()=>{
      var canvas = document.getElementById('myCanvas2');
      paper.setup(canvas);
   
-//      var playcanvas = document.getElementById('myPlaybackCanvas');
-//      paper.setup(playcanvas);
-     
-     //console.log("checking here" + playcanvas);
-  
      var topLayer = new paper.Layer();
      var frontLayer = new paper.Layer();
      var selectedFigure;
@@ -127,6 +122,8 @@ $(document).ready(()=>{
      var play= document.getElementById("play");
      var playmodal= document.getElementById("myPlayModal");
       play.onclick = async function() {
+      const context = canvas.getContext('2d');
+      context.clearRect(0, 0, canvas.width, canvas.height);
       intmodal.style.display = "block";
       $("#myCanvas2").show();
       $('#toggle_on_btn').hide();
@@ -142,12 +139,14 @@ $(document).ready(()=>{
       playbackLayer.visble = true;
         
         
-      for (var line = 0; line < charOrder.length; line++) { // will eventually need to make this <=
+      for (var line = 0; line <= charOrder.length; line++) { // will eventually need to make this <=
         
-        if (line in Object.keys(all_interactions )) { // need to change the stick figures
+        if (line in Object.keys(all_interactions)) { // need to change the stick figures
           //clear
           const context = canvas.getContext('2d');
           context.clearRect(0, 0, canvas.width, canvas.height);
+          
+          paper.project.activeLayer.removeChildren();
           
           var stick_list = all_interactions[line];
           var stick;
@@ -162,46 +161,18 @@ $(document).ready(()=>{
             num+=1;
             
           }
-          await new Promise(resolve => setTimeout(resolve, 1000));
+          //await new Promise(resolve => setTimeout(resolve, 1000));
         }
+        
+        if (line < charOrder.length) {
         
         $(".word_area").empty();
         $(".word_area").css("color", char_color_dict[charOrder[line]]);
         $(".word_area").append('<p>'+ dialOrder[line] + '</p>');
         await new Promise(resolve => setTimeout(resolve, 2000));
+        }
       }
       }
-      
-//       var interaction;
-//       for (interaction in all_interactions) {
-//         //console.log("this should be a number " + interaction); 
-//         var set_of_positions = all_interactions[interaction];
-//         var position;
-//         var saved_x_position;
-//         var saved_y_position;
-//        // console.log("size issss" + set_of_positions.length());
-//         var position_stickmen = {};
-//         var num = 0;
-//         for (position in set_of_positions) {
-//           console.log("one here");
-//          // console.log("this is a name" + position);
-//           saved_x_position = set_of_positions[position][0];
-//           saved_y_position = set_of_positions[position][1];
-//           //console.log("this is my x position " + set_of_positions[position][0]);
-//           //console.log("this is my y position " + set_of_positions[position][1]);
-//          position_stickmen[num] = new paper.Raster('stick'); 
-//         // console.log("rastered");
-//          position_stickmen[num].position = new paper.Point(saved_x_position, saved_y_position);
-//          //console.log("got my position");
-//          num+=1;
-//         }
-        
-//         await new Promise(resolve => setTimeout(resolve, 2000));
-        
-//       }
-                
-      
-      
   
 // beginning of app 
       var nextdone = document.getElementById("next");
@@ -377,12 +348,12 @@ $(document).ready(()=>{
        for(var j = 0; j < selected_chars_list.length; j++) { 
           frontLayer.activate();
           stickmen['stickman' + selected_chars_list[j]] = new paper.Raster('stick'); 
-          stickmen['stickman' + selected_chars_list[j]].position = new paper.Point(current_x, 150);
+          stickmen['stickman' + selected_chars_list[j]].position = new paper.Point(current_x, 250);
           stickmen['stickman' + selected_chars_list[j]].strokeColor = char_color_dict[selected_chars[j]];
 
           topLayer.activate();
           stickmen['stickman' + selected_chars_list[j]].data.head = new paper.Raster('stick'); 
-          stickmen['stickman' + selected_chars_list[j]].data.head.position = new paper.Point(current_x, 150);
+          stickmen['stickman' + selected_chars_list[j]].data.head.position = new paper.Point(current_x, 250);
           stickmen['stickman' + selected_chars_list[j]].data.head.scale(0.3);
           stickmen['stickman' + selected_chars_list[j]].data.head.strokeColor = char_color_dict[selected_chars[j]];
           current_x += 120;
@@ -480,8 +451,6 @@ $(document).ready(()=>{
       playmodal.style.display = "none";
       $("#addchar").show(); 
       $("#charHelp").hide(); 
-//       const context = playcanvas.getContext('2d');
-//       context.clearRect(0, 0, playcanvas.width, playcanvas.height);
     }
     
 
