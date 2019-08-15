@@ -1,6 +1,7 @@
     html, body {
       background-color: #bdc5d5;
       text-align: center;
+      color: #4b618c;
     }
 
     a {
@@ -11,13 +12,18 @@
         height: 100%;
         margin: 0;
         overflow: hidden;
-        border: 1px black solid;
+        border-radius:10px;
+        border: 1px #4b618c solid;
     }
+
 
     .edit {
       background-color: white;
-      margin-top:50px;
+      margin-top:10px;
       height: 1000px;
+      border-top-left-radius:5%; 
+      border-top-right-radius:5%; 
+      border: 8px dotted #f2eaa7;
     }
 
     .title {
@@ -49,7 +55,7 @@
     .large {
       background-color: white;
       height: 100%;
-      border: black 1px solid;  
+      border: #4b618c 1px solid;  
     }
 
     .btn {
@@ -92,7 +98,7 @@
 
 /* Color palette for choosing color for every character */
 #colorBtn {
-    border: black 1px solid; 
+    border: #4b618c 1px solid; 
     border-radius: 10px;
     margin-right: 0px;
     height: 30px;
@@ -138,7 +144,7 @@
         text-align: center;
         margin-top: 150px;
         border-radius:15px;
-        border: 1px solid black;
+        border: 1px solid #4b618c;
       }
 
 .interaction_actual {
@@ -161,6 +167,18 @@
    background-color: #faf7df;
    text-align: center;
    margin-top: 150px;
+   border-radius:15px;
+   border: 10px dotted #f2eaa7;
+}
+
+.title-page {
+   font-size:70px;
+   color: #4b618c;
+   font-family: “Montserrat”;
+   background-color: #faf7df;
+   text-align: center;
+   margin-top: 0px;
+   margin-bottom: 10px;
    border-radius:15px;
    border: 10px dotted #f2eaa7;
 }

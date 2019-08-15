@@ -13,17 +13,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
     <script type="text/javascript" src="{% static 'app.js' %}"> </script>
+    <link href="https://fonts.googleapis.com/css?family=Lato|Open+Sans&display=swap" rel="stylesheet">
 
 
 
 </head>
-<body> <!-- <canvas id="myCanvas" margin="0px">this is where animations will show up</canvas> -->
-    
-  
-  <canvas class="large" id="myCanvas" resize margin="0px"></canvas>
+<body>     
   <img id="stick" class="visuallyhidden" src="https://i.ibb.co/3fcDDXn/Artboard-1.png" width="320" height="491"> 
   
-  <div class=" container starter">
+  <div class=" container starter ask">
   
     <div class = "container title-home" style = "margin-top: 50px;">
     <div class = "row">
@@ -91,12 +89,21 @@
   </div>
   </div>
 </div>
+  <div class="container-fluid">
+        <div class = "row" style = "margin-top:10px;">
+          <div class = "col-12 title title-page " id = "title-here">
+            <button class="btn finalize-btn" id="charbtn" style = "margin-bottom:20px; font-family:'Helvetica Neue'"><i class="fa fa-group"></i> Characters</button>
+            TITLE FROM SCREEN
+            <button class="btn finalize-btn" id="play" style = "margin-bottom:20px; font-family:'Helvetica Neue'"><i class="fa fa-play"></i> Playback</button>
+          </div>
+        </div>
+  </div>
   
   <div class = "container computer edit real dont_show">
 
          <div class="row" style="margin-top:-30px; background-color: #bdc5d5; ">
             <div class="col-2" style="text-align:right;">
-              <button class="btn finalize-btn" id="charbtn" style = "margin-bottom:20px;"><i class="fa fa-group"></i> Characters</button>
+              
               <div id="myCharModal" class="modal">
                 <div class="modal-content">
                   <span class="close" id="close3">&times;</span>
@@ -137,7 +144,6 @@
          </div>
        
          <div class="col-2"> 
-           <button class="btn finalize-btn" id="play" style = "margin-bottom:20px;"><i class="fa fa-play"></i> Playback</button>
            <div id="myPlayModal" class="modal" style="margin-top:10px;">
                 <div class="modal-content" style="margin-top:10px; height:800px;">
                   <span class="close" id="closeplay">&times;</span>
@@ -157,43 +163,36 @@
           </div>
  
        </div>
-    <div class = "row">
+    <div class = "row" >
       <div class="col-12">
         
-        <div class = "row ">
-          <div class = "col-12 title" id = "title-here">
-            TITLE FROM SCREEN
-          </div>
-        </div>
+
         
         
         <div class = "script">  
           <div class="interaction_actual">
-            <button class="btn get_val" value="0" id="int0"> <i class="fa fa-plus"></i></button>
+            <button class="btn get_val" value="0" id="int0" style="margin-top:60px;"> <i class="fa fa-plus"></i></button>
           </div>
         </div>
         
         <div class="container">
-                    <div class="row" style="margin-top:30px;">
+            <div class="row" style="margin-top:30px;">
             <div class="col-12" style="text-align:right;">
               <div id="myInteractionModal" class="modal">
                 <div class="modal-content" id="add-blocking" style="height:700px; margin-top:30px;">
                   <span class="close" id="close2">&times;</span>
                     <div class="container-fluid">
                       <div class="row">
-                        <div class="col-1">
+                        <div class="col-3">
                           
                           <button class="btn finalize-btn"  id="charstick"><i class="fa fa-plus"></i>&nbsp Select Characters</button>
                           
-                          <div id="toggle_on_btn"><button class="btn toggle-btn" style="margin-top:10px;"><i class="fa fa-toggle-on"></i>&nbsp Front View</button></div>
-                          <div id="toggle_off_btn"><button class="btn toggle-btn" style="margin-top:10px;"><i class="fa fa-toggle-off"></i>&nbsp Top-Down View</button></div>
-
                           <div id="myCharStickModal" class="modal">
                                     <div class="modal-content" style="height:400px; margin-top:60px;">
                                       <span class="close" id="close4">&times;</span>
                                         <div class="container-fluid">
                                           <div class="row">
-                                            <div class="col-12 instBox" style="margin-bottom:20px; text-align: center; color: black;">
+                                            <div class="col-12 instBox" style="margin-bottom:20px; text-align: center; color: #4b618c;">
                                               <a>Select which characters you would like in this interaction:</a><br>
                                               <form id = "charchoose">
                                                 <label class="container"><input type="checkbox" checked="checked" value="debugchar"><span class="checkmark"></span>debug character</label> <br>
@@ -211,20 +210,26 @@
                                      </div>
                                   </div>
                         </div>
-                        <div class="col-9 instBox" style="margin-bottom:20px; text-align: center;">
+                        <div class="col-6 instBox" style="margin-bottom:20px; text-align: center;">
                           
                           <a id="dragmsg" style = " color: lightgrey;">Drag characters to change their position.<br></a>
                           <div class="word_area" style="margin-bottom:-30px;"></div >
                          
-                          
-                          <canvas id="myCanvas2" style = "width: 700px; height:500px; background-color:white; border: 1px black solid; margin-top:70px;">
-                          
+                          <canvas id="myCanvas2" style = "width: 700px; height:500px; background-color:white; border: 10px solid #f2eaa7; margin-top:40px; text-align: center; margin-left:-150px;">
                           
                           </canvas>
                         </div>
                         
-                        <div class="col-2">
-                            <button class="btn"  id="savepos" style = "margin-top: 20px; text-align:right;"><i class="fa fa-check"></i> Save Position</button>
+                        <div class="col-3">
+                          <div id="toggle_on_btn"><button class="btn toggle-btn"><i class="fa fa-toggle-on"></i>&nbsp Front View</button></div>
+                          <div id="toggle_off_btn"><button class="btn toggle-btn"><i class="fa fa-toggle-off"></i>&nbsp Top-Down View</button></div>
+
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12" style="text-align:right">
+                          <button class="btn"  id="savepos" style = "margin-top: 0px; text-align:right;"><i class="fa fa-check"></i> Save Position</button>
+
                         </div>
                       </div>
                     </div>
@@ -232,6 +237,7 @@
               </div>
           </div>
          </div>
+
           
           <div class="row" style="margin-top:30px;">
             <div class="col-12" style="text-align:right;">

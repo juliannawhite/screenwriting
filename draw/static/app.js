@@ -70,22 +70,24 @@ $(document).ready(()=>{
 
      
   // code for computer screen
-     if (!(url.indexOf('?size=large') > -1)) {
-       
+//      if (!(url.indexOf('?size=large') > -1)) {
+//         $
         $("#toggle_off_btn").hide();
         $("#charhelp").hide(); 
         $(".large").hide();
+        //$(".real").hide();
         $(".real").show();
-        //$(".dont_show").hide();
        // console.log("here");
         $(".starter").hide(); // here
         //$(".starter").show();
+       
         $(".stageimg").hide();
         getColorsCreatePalette();
+       console.log("hm");
         
        //$("#myCanvas2").show();
        
-      }
+//       }
   
  // input dialogue
      var enter = document.getElementById("enter");
