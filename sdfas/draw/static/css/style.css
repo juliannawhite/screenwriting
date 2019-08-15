@@ -1,0 +1,205 @@
+    html, body {
+      background-color: #bdc5d5;
+      text-align: center;
+    }
+
+    a {
+      font-size: 20px;
+    }
+    .myCanvas {
+        width:  100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    .edit {
+      background-color: white;
+      margin-top:50px;
+      height: 1000px;
+    }
+
+    .title {
+      font-size: 70px;
+      margin-top: 20px;
+    }
+
+/*
+ * Hide only visually, but have it available for screenreaders: h5bp.com/v
+ */
+/*https://github.com/h5bp/html5-boilerplate/blob/a20a3c76d541d40ffb75a8f02c8c0f7b05773e51/css/main.css#L127-L136*/
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+    .dialogue {
+      text-align: left;
+      font-size: 30px;
+      margin-left: 20px;
+    }
+
+    .large {
+      background-color: white;
+      height: 100%;
+      border: black 1px solid;  
+    }
+
+    .btn {
+      color: #4b618c;
+      border: #6fcbf2 3px solid; 
+      border-radius: 10px;
+      margin-right: 20px;
+      background-color: #caecfa;
+    }
+
+     .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%; 
+      overflow: auto; 
+      background-color: rgba(0,0,0,0.4); 
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+      margin: 15% auto; 
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      font-size:20px;
+      font-family: "Montserrat";
+      background-color:#F8F8F8;
+      
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+/* Color palette for choosing color for every character */
+#colorBtn {
+    border: black 1px solid; 
+    border-radius: 10px;
+    margin-right: 0px;
+    height: 30px;
+    width: 30px;
+    background-color: black;
+    padding-bottom: 10px;
+}
+
+#popcp {
+    width: 200px;
+    height: 170px;
+    position: absolute;
+    display: none;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+	flex-wrap: wrap;
+}
+
+#colorPalette {
+    width: 200px;
+    height: 170px;
+    position: absolute;
+    display: flex;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+	flex-wrap: wrap;
+}
+
+.swatch {
+	width: 30px;
+	height: 30px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+	margin: 5px;
+}
+
+      .hello {
+        font-size:180px;
+        color: darkgray;
+        font-family: "Montserrat";
+        background-color: white;
+        text-align: center;
+        margin-top: 150px;
+        border-radius:15px;
+        border: 1px solid black;
+      }
+
+.interaction_actual {
+  text-align: right;
+}
+
+.questions {
+   font-size:180px;
+   color: #4b618c;
+   font-family: “Montserrat”;
+   background-color: #bdc5d5;
+   text-align: center;
+   margin-top: 150px;
+}
+
+.title-home {
+   font-size:180px;
+   color: #4b618c;
+   font-family: “Montserrat”;
+   background-color: #faf7df;
+   text-align: center;
+   margin-top: 150px;
+   border-radius:15px;
+   border: 10px dotted #f2eaa7;
+}
+
+.btn-start {
+   font-size:180px;
+   color: white;
+   font-family: “Montserrat”;
+   background-color: #6fcbf2;
+   text-align: center;
+   margin-top: 150px;
+   border-radius:15px;
+   border: 3px solid #caecfa;
+}
+
+.speech-bubble {
+    background: #D0D0D0;
+    -webkit-border-radius: 4px;
+            border-radius: 4px;
+    font-size: 30px;
+    height: 150px;
+    line-height: 1.3;
+    margin: 0 auto 40px;
+    max-width: 400px;
+    padding: 15px;
+    position: relative;
+}
+
+
+.speech-bubble p {
+    margin: 0 0 10px;
+}
+.speech-bubble p:last-of-type {
+    margin-bottom: 0;
+}
+
+.speech-bubble::after {
+    border-left: 20px solid transparent;
+    border-top: 20px solid 	#D0D0D0;
+    bottom: -20px;
+    position: absolute;
+    right: 20px;
+}

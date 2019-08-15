@@ -1,0 +1,270 @@
+{% load static %}
+<!-- https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript
+<!DOCTYPE html> -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Screenwriting App</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <script type="text/javascript" src="{% static 'app.js' %}"> </script>
+
+
+
+</head>
+<body> <!-- <canvas id="myCanvas" margin="0px">this is where animations will show up</canvas> -->
+    
+  
+  <canvas class="large" id="myCanvas" resize margin="0px"></canvas>
+  <img id="stick" class="visuallyhidden" src="data:image/png;base64,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" width="320" height="491"> 
+  
+  <div class=" container starter">
+  
+    <div class = "container title-home" style = "margin-top: 50px;">
+    <div class = "row">
+      <div class = "col-12" style="font-size:70px;">
+        <a>Welcome to <br> <a style = "font-size:100px; color:#4b618c; font-family: 'Didot';">Stage Block</a> <br></a>
+      </div>
+    </div>
+  </div>
+  
+    <div class="nameplay">
+     
+    <div class = "container questions" style = "margin-top: 90px;">
+    <div class = "row">
+      <div class = "col-12" style = "font-size:70px;">
+        <a>What is the name of your play?</a>
+      </div>
+    </div>
+  </div>
+      
+      
+   <div class = "container hello" style = "margin-top: 90px;">
+    <div class = "row">
+      <div class = "col-12">
+         <input class = "input-for-amounts" type="text" name="title-name" value = "" id="title-name" style = "width:75%; text-align: center; font-size:30px; height: 80px;">
+        
+      </div>
+    </div>
+  </div>
+      
+      
+   <div class = "container btn-start" style = "margin-top: 90px; text-align: center; width: 200px;">
+    <div class = "row">
+      <div class = "col-12" id = "next" style = "font-size:50px;">
+        <a>Next</a>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  
+    <div class = "container stageimg">
+    
+    <div class = "container questions" style = "margin-top: 90px;">
+    <div class = "row">
+      <div class = "col-12" style = "font-size:80px;">
+        <a>Please enter the url of an image of your stage</a>
+      </div>
+    </div>
+  </div>
+  
+    <div class = "container hello" style = "margin-top: 90px;">
+    <div class = "row">
+      <div class = "col-12">
+        <input id = "stage" name="stage" type="text" style="font-size: 30px; height: 80px; width:75%; text-align: center;" ></input>
+      </div>
+    </div>
+  </div>
+  
+ <div class = "container btn-start" style = "margin-top: 90px; text-align: center; width: 200px;">
+    <div class = "row">
+      <div class = "col-12" id = "homedone" style = "font-size:50px;">
+        <a>Enter</a>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+  
+  <div class = "container computer edit real">
+
+         <div class="row" style="margin-top:-30px; background-color: #bdc5d5; ">
+            <div class="col-2" style="text-align:right;">
+              <button class="btn finalize-btn" id="charbtn" style = "margin-bottom:20px;"><i class="fa fa-group"></i> Characters</button>
+              <div id="myCharModal" class="modal">
+                <div class="modal-content">
+                  <span class="close" id="close3">&times;</span>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
+                          Characters:
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12" style="text-align: left; font-size:20px;" id = "characters">
+                          
+                                                
+                        </div>
+                      </div>
+                      
+                      <div id="addchar" class="col-12" style="text-align: right; font-size:20px;">
+                          <button class="btn"  ><i class="fa fa-plus"></i> Add Character</button>
+                        
+                      </div>
+                      
+                      <div style="text-align: right; font-size:20px;" id = "charHelp">
+                          New Character: 
+                          <input type="text" name="newcharinput" id="newcharinput" style = "width:15%;">
+                          <button id="colorBtn"></button>
+                          <button class="btn"  id="newchargo"><i class="fa fa-check"></i> </button>
+                          <div id="popcp" style="right: 20px">
+                              <div id="colorPalette"></div>
+                          </div>
+                      </div>
+                      
+                    </div>
+                 </div>
+              </div>
+          </div>
+           
+         <div class="col-8">
+         </div>
+       
+         <div class="col-2"> 
+           <button class="btn finalize-btn" id="play" style = "margin-bottom:20px;"><i class="fa fa-play"></i> Playback</button>
+           <div id="myPlayModal" class="modal" style="margin-top:10px;">
+                <div class="modal-content" style="margin-top:10px;">
+                  <span class="close" id="closeplay">&times;</span>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: left; height:500px;">
+                          <div class="speech-bubble" style="background-color:#D0D0D0;">
+                            <div class="word_area" style = "color: white; text-align: center; padding-top:20px;">
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                 </div>
+              </div>
+             </div>
+          </div>
+ 
+       </div>
+    <div class = "row">
+      <div class="col-12">
+        
+        <div class = "row ">
+          <div class = "col-12 title" id = "title-here">
+            TITLE FROM SCREEN
+          </div>
+        </div>
+        
+
+        
+        <div class = "script">  
+          <div class="interaction_actual">
+            <button class="btn" value="0" id="int0"> <i class="fa fa-plus"></i></button>
+          </div>
+        </div>
+        
+        <div class="container">
+                    <div class="row" style="margin-top:30px;">
+            <div class="col-12" style="text-align:right;">
+              <div id="myInteractionModal" class="modal">
+                <div class="modal-content" style="height:600px; margin-top:50px;">
+                  <span class="close" id="close2">&times;</span>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-1">
+                          
+                          <button class="btn finalize-btn"  id="charstick"><i class="fa fa-plus"></i>&nbsp Select Characters</button>
+                          
+                          <div id="toggle_on_btn"><button class="btn toggle-btn" style="margin-top:10px;"><i class="fa fa-toggle-on"></i>&nbsp Front View</button></div>
+                          <div id="toggle_off_btn"><button class="btn toggle-btn" style="margin-top:10px;"><i class="fa fa-toggle-off"></i>&nbsp Top-Down View</button></div>
+
+                          <div id="myCharStickModal" class="modal">
+                                    <div class="modal-content" style="height:400px; margin-top:60px;">
+                                      <span class="close" id="close4">&times;</span>
+                                        <div class="container-fluid">
+                                          <div class="row">
+                                            <div class="col-12 instBox" style="margin-bottom:20px; text-align: center; color: black;">
+                                              <a>Select which characters you would like in this interaction:</a><br>
+                                              <form id = "charchoose">
+                                                
+                                              </form>
+                                            </div>
+                                            <div class="row">
+                                              <div class="col-12" style="text-align: right;">
+                                                <button class="btn"  id="chosenchars" style = "margin-top: 20px; text-align:right;"><i class="fa fa-check"></i> Enter</button>
+                                              </div>
+                                            </div>
+                                          </div>
+
+
+                                        </div>
+                                     </div>
+                                  </div>
+                        </div>
+                        <div class="col-9 instBox" style="margin-bottom:20px; text-align: center; color: lightgrey;">
+                          
+                          Drag characters to change their position.<br>
+
+                          <canvas id="myCanvas2" style = "width: 700px; height:500px;"></canvas>
+                        </div>
+                        
+                        <div class="col-2">
+                            <button class="btn"  id="savepos" style = "margin-top: 20px; text-align:right;"><i class="fa fa-check"></i> Save Position</button>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+              </div>
+          </div>
+         </div>
+          
+          <div class="row" style="margin-top:30px;">
+            <div class="col-12" style="text-align:right;">
+              <button class="btn"  id="dialbtn"><i class="fa fa-plus"></i> Dialogue</button>
+              <div id="myDialModal" class="modal">
+                <div class="modal-content">
+                  <span class="close" id="close1">&times;</span>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
+                          Character Name:
+                          <select class = "form" name="charnamesel" id="charnamesel" size="4" style = "width: 300px; border-radius:15px;">
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12" style="text-align: left; font-size:20px;">
+                          Words: 
+                          <input class = "input-for-amounts" type="text" name="words" id="words" style = "width:92%;">
+                          <div style="text-align: right;">
+                          <button class="btn"  id="enter" style = "margin-top: 20px;"><i class="fa fa-check"></i> Enter</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+              </div>
+          </div>
+       </div>
+       
+
+      </div>
+    </div>
+   </div>
+  </div>
+  
+  
+</body>
+  
+</html>

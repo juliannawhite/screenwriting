@@ -1,0 +1,285 @@
+{% load static %}
+<!-- https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript
+<!DOCTYPE html> -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Screenwriting App</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <script type="text/javascript" src="{% static 'app.js' %}"> </script>
+    <link href="https://fonts.googleapis.com/css?family=Lato|Open+Sans&display=swap" rel="stylesheet">
+
+
+
+</head>
+<body>
+
+  <img id="stick" class="visuallyhidden" src="https://i.ibb.co/3fcDDXn/Artboard-1.png" width="320" height="491"> 
+  
+
+  
+  <div class=" container starter ask">
+  
+    <div class = "container title-home" style = "margin-top: 50px;">
+    <div class = "row">
+      <div class = "col-12" style="font-size:70px;">
+        <a>Welcome to <br> <a style = "font-size:100px; color:#4b618c; font-family: 'Didot';">Stage Block</a> <br></a>
+      </div>
+    </div>
+  </div>
+  
+    <div class="nameplay">
+     
+    <div class = "container questions" style = "margin-top: 90px;">
+    <div class = "row">
+      <div class = "col-12" style = "font-size:70px;">
+        <a>What is the name of your play?</a>
+      </div>
+    </div>
+  </div>
+      
+      
+   <div class = "container hello" style = "margin-top: 90px;">
+    <div class = "row">
+      <div class = "col-12">
+         <input class = "input-for-amounts" type="text" name="title-name" value = "" id="title-name" style = "width:75%; text-align: center; font-size:30px; height: 80px;">
+        
+      </div>
+    </div>
+  </div>
+      
+      
+   <div class = "container btn-start" style = "margin-top: 90px; text-align: center; width: 200px;">
+    <div class = "row">
+      <div class = "col-12" id = "next" style = "font-size:50px;">
+        <a>Next</a>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  
+    <div class = "container stageimg">
+    
+    <div class = "container questions" style = "margin-top: 90px;">
+    <div class = "row">
+      <div class = "col-12" style = "font-size:80px;">
+        <a>Please enter the url of an image of your stage</a>
+      </div>
+    </div>
+  </div>
+  
+    <div class = "container hello" style = "margin-top: 90px;">
+    <div class = "row">
+      <div class = "col-12">
+        <input id = "stage" name="stage" type="text" style="font-size: 30px; height: 80px; width:75%; text-align: center;" ></input>
+      </div>
+    </div>
+  </div>
+  
+ <div class = "container btn-start" style = "margin-top: 90px; text-align: center; width: 200px;">
+    <div class = "row">
+      <div class = "col-12" id = "homedone" style = "font-size:50px;">
+        <a>Enter</a>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+  <div class="container-fluid">
+        <div class = "row" style = "margin-top:10px;">
+          <div class = "col-12 title title-page " id = "title-here">
+            <button class="btn finalize-btn" id="charbtn" style = "margin-bottom:20px; font-family:'Helvetica Neue'"><i class="fa fa-group"></i> Characters</button>
+            <a style="margin-left:80px; font-size:60px; margin-right:80px;">TITLE OF THE PLAY</a>
+            <button class="btn finalize-btn" id="play" style = "margin-bottom:20px; font-family:'Helvetica Neue'"><i class="fa fa-play"></i> Playback</button>
+          </div>
+        </div>
+  </div>
+  
+  <div class = "container computer edit real dont_show">
+
+         <div class="row" style="margin-top:-30px; background-color: #bdc5d5; ">
+            <div class="col-2" style="text-align:right;">
+              
+              <div id="myCharModal" class="modal">
+                <div class="modal-content">
+                  <span class="close" id="close3">&times;</span>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
+                          Characters: 
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12" style="text-align: left; font-size:20px;" id = "characters">
+                          
+                                                
+                        </div>
+                      </div>
+                      
+                      <div id="addchar" class="col-12" style="text-align: right; font-size:20px;">
+                          <button class="btn"  ><i class="fa fa-plus"></i> Add Character</button>
+                        
+                      </div>
+                      
+                      <div style="text-align: right; font-size:20px;" id = "charHelp">
+                          New Character: 
+                          <input type="text" name="newcharinput" id="newcharinput" style = "width:15%;">
+                          <button id="colorBtn"></button>
+                          <button class="btn"  id="newchargo"><i class="fa fa-check"></i> </button>
+                          <div id="popcp" style="right: 20px">
+                              <div id="colorPalette"></div>
+                          </div>
+                      </div>
+                      
+                    </div>
+                 </div>
+              </div>
+          </div>
+           
+         <div class="col-8">
+         </div>
+       
+         <div class="col-2"> 
+           <div id="myPlayModal" class="modal" style="margin-top:10px;">
+                <div class="modal-content" style="margin-top:10px; height:800px;">
+                  <span class="close" id="closeplay">&times;</span>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: left; height:500px;">
+                          <div class="speech-bubble" style="background-color:#D0D0D0;">
+                            <div class="word_area" style = "color: white; text-align: center; padding-top:20px;">
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                 </div>
+              </div>
+             </div>
+          </div>
+ 
+       </div>
+    <div class = "row" >
+      <div class="col-12">
+        
+
+        
+        
+        <div class = "script">  
+          <div class="interaction_actual">
+            <button class="btn get_val" value="0" id="int0" style="margin-top:60px;"> <i class="fa fa-plus"></i></button>
+          </div>
+        </div>
+        
+        <div class="container">
+            <div class="row" style="margin-top:30px;">
+            <div class="col-12" style="text-align:right;">
+              <div id="myInteractionModal" class="modal">
+                <div class="modal-content" id="add-blocking" style="height:700px; margin-top:30px;">
+                  <span class="close" id="close2">&times;</span>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-3">
+                          
+                          <button class="btn finalize-btn"  id="charstick"><i class="fa fa-plus"></i>&nbsp Select Characters</button>
+                          
+                          <div id="myCharStickModal" class="modal">
+                                    <div class="modal-content" style="height:400px; margin-top:60px;">
+                                      <span class="close" id="close4">&times;</span>
+                                        <div class="container-fluid">
+                                          <div class="row">
+                                            <div class="col-12 instBox" style="margin-bottom:20px; text-align: center; color: #4b618c;">
+                                              <a>Select which characters you would like in this interaction:</a><br>
+                                              <form id = "charchoose">
+                                          
+                                              </form>
+                                            </div>
+                                            <div class="row">
+                                              <div class="col-12" style="text-align: right;">
+                                                <button class="btn"  id="chosenchars" style = "margin-top: 20px; text-align:right;"><i class="fa fa-check"></i> Enter</button>
+                                              </div>
+                                            </div>
+                                          </div>
+
+
+                                        </div>
+                                     </div>
+                                  </div>
+                        </div>
+                        <div class="col-6 instBox" style="margin-bottom:20px; text-align: center;">
+                          
+                          <a id="dragmsg" style = " color: lightgrey;">Drag characters to change their position.<br></a>
+                          <div class="word_area" style="margin-bottom:-30px;"></div >
+                         
+                          <canvas id="myCanvas2" style = "width: 700px; height:500px; background-color:white; border: 10px solid #f2eaa7; margin-top:40px; text-align: center; margin-left:-150px;">
+                          
+                          </canvas>
+                        </div>
+                        
+                        <div class="col-3">
+                          <div id="toggle_on_btn"><button class="btn toggle-btn"><i class="fa fa-toggle-on"></i>&nbsp Front View</button></div>
+                          <div id="toggle_off_btn"><button class="btn toggle-btn"><i class="fa fa-toggle-off"></i>&nbsp Top-Down View</button></div>
+
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12" style="text-align:right">
+                          <button class="btn"  id="savepos" style = "margin-top: 0px; text-align:right;"><i class="fa fa-check"></i> Save Position</button>
+                          <div id="toggle_on_btn2"><button class="btn toggle-btn"><i class="fa fa-toggle-on"></i>&nbsp Front View</button></div>
+                          <div id="toggle_off_btn2"><button class="btn toggle-btn"><i class="fa fa-toggle-off"></i>&nbsp Top-Down View</button></div>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+              </div>
+          </div>
+         </div>
+
+          
+          <div class="row" style="margin-top:30px;">
+            <div class="col-12" style="text-align:right;">
+              <button class="btn"  id="dialbtn"><i class="fa fa-plus"></i> Dialogue</button>
+              <div id="myDialModal" class="modal">
+                <div class="modal-content">
+                  <span class="close" id="close1">&times;</span>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12 instBox" style="margin-bottom:20px; text-align: left;">
+                          Character Name:
+                          <select class = "form" name="charnamesel" id="charnamesel" size="4" style = "width: 300px; border-radius:15px;">
+                          <option value="debug"> debug character</option>'
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12" style="text-align: left; font-size:20px;">
+                          Words: 
+                          <input class = "input-for-amounts" type="text" name="words" id="words" style = "width:92%;">
+                          <div style="text-align: right;">
+                          <button class="btn"  id="enter" style = "margin-top: 20px;"><i class="fa fa-check"></i> Enter</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+              </div>
+          </div>
+       </div>
+       
+
+      </div>
+    </div>
+   </div>
+  </div>
+  
+  
+</body>
+  
+</html>
