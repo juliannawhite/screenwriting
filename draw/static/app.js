@@ -103,7 +103,7 @@ $(document).ready(()=>{
      newchar.onclick = function() {    
        var newcharname = document.getElementById("newcharinput").value;
        console.log(newcharname);
-       $("#characters").append(newcharname + "<br>");
+       $("#characters").append('<button class="colorBtn2" style="background-color:' + chosen_color + '"></button>&nbsp'+ newcharname + '<br><br>');
        document.getElementById("newcharinput").value = "";
        
        charList.push(newcharname);
