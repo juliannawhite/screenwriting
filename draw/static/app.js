@@ -28,6 +28,13 @@ $(document).ready(()=>{
      var selectedFigure;
   
      var playbackLayer;
+  
+//      var test= document.getElementById("test");
+//      test.onclick = function() {
+//            test.fill = "blue";
+        
+//         }
+     
 
   // COLOR PALETTE
   
@@ -220,13 +227,7 @@ $(document).ready(()=>{
       var words = document.getElementById("words").value;
      
       $(".script").append('<div class = "row title dialogue"> <div class = "col-12">' + name + ": <a>" + words + '</a></div></div>');
-      //$(".script").append();
       $('<div class="interaction_actual get_val" value="'+int_count+'"><button class="btn" value="' + int_count + '" id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').appendTo(".script").click(function(){openInter($(this).attr('value'))});
-      //$('<div class="interaction_actual get_val"><button class="btn" value="' + int_count + '" id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').appendTo(".script").click(function(){openInter(int_count)});
-      
-      
-      
-      //$( '<div class="interaction_actual get_val"><button class="btn" value="' + int_count + '" id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').click(function(){openInter($(this).attr('value'))}).appendTo(".script");
 
       console.log(int_count)
       int_count+=1;

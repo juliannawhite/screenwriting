@@ -4,6 +4,8 @@
       color: #4b618c;
     }
 
+
+
     a {
       font-size: 20px;
     }
@@ -232,4 +234,12 @@
     bottom: -20px;
     position: absolute;
     right: 20px;
+}
+
+.icon {
+   fill: black; 
+}
+
+.icon:hover {
+  fill: orange;
 }
