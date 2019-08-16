@@ -162,11 +162,13 @@ $(document).ready(()=>{
       if (!front_view_play) {
         for (layer in topLayers) {
           layer.activate();
+          await sleep(3000);
           layer.visible = true; 
         }
       } else {
         for (layer in posLayers) {
           layer.activate();
+          await sleep(3000);
           layer.visible = true; 
         }
       }
