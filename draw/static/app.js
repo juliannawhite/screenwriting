@@ -17,6 +17,8 @@ $(document).ready(()=>{
      var all_interactions = {};
      var top_interactions = {};
      var most_recent_inter = 0;
+     var posLayers = [];
+     var topLayers = [];
   
      var front_view_play = true;
   
@@ -155,45 +157,54 @@ $(document).ready(()=>{
       playbackLayer = new paper.Layer();
       playbackLayer.activate();
       playbackLayer.visble = true;
-      
+      var layer;
+        //simple hacky soln to get playback working for now, should fix to a more complex version when time is available
       if (!front_view_play) {
-        alert("you want the top down view");
+        for (layer in topLayers) {
+          layer.activate();
+          layer.visible = true; 
+        }
       } else {
-        
-      for (var line = 0; line <= charOrder.length; line++) { // will eventually need to make this <=
-        
-        if (line in Object.keys(all_interactions)) { // need to change the stick figures
-          //clear
-          const context = canvas.getContext('2d');
-          context.clearRect(0, 0, canvas.width, canvas.height);
-          
-          paper.project.activeLayer.removeChildren();
-          
-          var stick_list = all_interactions[line];
-          var stick;
-          var num = 0;
-          var position_stickmen = {};
-          for (stick in stick_list) {
-            console.log("saving stick as" + stick);
-            var saved_x_position = stick_list[stick][0];
-            var saved_y_position = stick_list[stick][1];
-            position_stickmen[num] = new paper.Raster('stick'); 
-            position_stickmen[num].position = new paper.Point(saved_x_position, saved_y_position);
-            num+=1;
-            
-          }
-          //await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-        
-        if (line < charOrder.length) {
-        
-        $(".word_area").empty();
-        $(".word_area").css("color", char_color_dict[charOrder[line]]);
-        $(".word_area").append('<p>'+ dialOrder[line] + '</p>');
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        for (layer in posLayers) {
+          layer.activate();
+          layer.visible = true; 
         }
       }
-      }
+      
+//         for (var line = 0; line <= charOrder.length; line++) { // will eventually need to make this <=
+        
+//         if (line in Object.keys(all_interactions)) { // need to change the stick figures
+//           //clear
+//           //const context = canvas.getContext('2d');
+//           //context.clearRect(0, 0, canvas.width, canvas.height);
+          
+//           //paper.project.activeLayer.removeChildren();
+         
+          
+//           var stick_list = all_interactions[line];
+//           var stick;
+//           var num = 0;
+//           var position_stickmen = {};
+          
+//           //for (stick in stick_list) {
+//             //console.log("saving stick as" + stick);
+//             //var saved_x_position = stick_list[stick][0];
+//             //var saved_y_position = stick_list[stick][1];
+//             //position_stickmen[num] = new paper.Raster('stick'); 
+//             //position_stickmen[num].position = new paper.Point(saved_x_position, saved_y_position);
+//             //num+=1; 
+//          // }
+//           //await new Promise(resolve => setTimeout(resolve, 1000));
+//         }
+        
+//         if (line < charOrder.length) {
+        
+//         $(".word_area").empty();
+//         $(".word_area").css("color", char_color_dict[charOrder[line]]);
+//         $(".word_area").append('<p>'+ dialOrder[line] + '</p>');
+//         await new Promise(resolve => setTimeout(resolve, 2000));
+//         }
+//       }
       }
   
 // beginning of app 
@@ -478,6 +489,13 @@ var svStr = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0id
      var int_char_pos = {};
      var int_char_top = {};
       
+     var currLayerCopy = frontLayer.clone(); //really hacky first soln for playback, will want to change most likely if there is time to get tween etc.
+     currLayerCopy.visible = false;
+     var currTopLayerCopy = topLayer.clone(); 
+     currTopLayerCopy.visible = false;
+       
+     topLayers.push(currTopLayerCopy);
+     posLayers.push(currLayerCopy);
      for (var char = 0; char < selected_chars_list.length; char++) {
         int_char_pos[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].position._x, stickmen['stickman' + selected_chars_list[char]].position._y];
         int_char_top[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].data.head.position._x, stickmen['stickman' + selected_chars_list[char]].data.head.position._y];
