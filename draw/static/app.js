@@ -17,26 +17,36 @@ $(document).ready(()=>{
      var all_interactions = {};
      var top_interactions = {};
      var most_recent_inter = 0;
-     var posLayers = [];
-     var topLayers = [];
+     var posLayers = {};
+     var topLayers = {};
+     var all_heads = {};
+     var all_sticks = {};
   
      var front_view_play = true;
   
      var canvas = document.getElementById('myCanvas2');
      paper.setup(canvas);
   
+     var playbackLayer = new paper.Layer();
+     playbackLayer.visible = false;
      var topLayer = new paper.Layer();
      var frontLayer = new paper.Layer();
+     frontLayer.activate();
+    
      var selectedFigure;
+     var stickObj;
   
-     var playbackLayer;
      var isTopView = false;
+     topLayer.visible = false;
+     frontLayer.visible = true;
+     var svStr = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiCgkgaWQ9InN2ZzIiIHhtbG5zOmNjPSJodHRwOi8vd2ViLnJlc291cmNlLm9yZy9jYy8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6aW5rc2NhcGU9Imh0dHA6Ly93d3cuaW5rc2NhcGUub3JnL25hbWVzcGFjZXMvaW5rc2NhcGUiIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIiB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgoJIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTcwIDI0MCIKCSBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxNzAgMjQwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjtzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MztzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cjwvc3R5bGU+Cjxzb2RpcG9kaTpuYW1lZHZpZXcgIGJvcmRlcmNvbG9yPSIjNjY2NjY2IiBib3JkZXJvcGFjaXR5PSIxLjAiIGdyaWR0b2xlcmFuY2U9IjEwMDAwIiBndWlkZXRvbGVyYW5jZT0iMTAiIGhlaWdodD0iMjQwcHgiIGlkPSJiYXNlIiBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJsYXllcjIiIGlua3NjYXBlOmN4PSI1NC42NzY0NzIiIGlua3NjYXBlOmN5PSI5Ny40OTk5OTIiIGlua3NjYXBlOmRvY3VtZW50LXVuaXRzPSJweCIgaW5rc2NhcGU6Z3JpZC1wb2ludHM9ImZhbHNlIiBpbmtzY2FwZTpndWlkZS1wb2ludHM9ImZhbHNlIiBpbmtzY2FwZTpvYmplY3QtYmJveD0idHJ1ZSIgaW5rc2NhcGU6b2JqZWN0LW5vZGVzPSJ0cnVlIiBpbmtzY2FwZTpvYmplY3QtcG9pbnRzPSJ0cnVlIiBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMC4wIiBpbmtzY2FwZTpwYWdlc2hhZG93PSIyIiBpbmtzY2FwZTp3aW5kb3ctaGVpZ2h0PSI2OTMiIGlua3NjYXBlOndpbmRvdy13aWR0aD0iMTAyNCIgaW5rc2NhcGU6d2luZG93LXg9IjAiIGlua3NjYXBlOndpbmRvdy15PSIyNSIgaW5rc2NhcGU6em9vbT0iMi40NTY0MTA0IiBvYmplY3R0b2xlcmFuY2U9IjEwIiBwYWdlY29sb3I9IiNmZmZmZmYiIHNob3dncmlkPSJmYWxzZSIgd2lkdGg9IjE3MHB4Ij4KCTwvc29kaXBvZGk6bmFtZWR2aWV3Pgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTAyLjQsMTMwLjdsMTMuNSw4NS44bC0zMS41LTQxLjdsLTI4LjYsNDEuN2w5LjgtODUuN2wtMzQuMiw2LjhsNDEuMS00OS4yYy03LjYtNi42LTEyLjctMTkuMy0xMi43LTMzLjcKCWMwLTIxLjMsMTAuOS0zMC44LDI0LjctMzAuOHMyNSw5LDI1LDMwLjRjMCwxMy43LTQuNSwyNS43LTExLjUsMzIuNWw0MS4yLDU0LjRMMTAyLjQsMTMwLjd6Ii8+Cjwvc3ZnPgo=";
+
   
-//      var test= document.getElementById("test");
-//      test.onclick = function() {
-//            test.fill = "blue";
-        
-//         }
+  
+  //sleep fn from https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep/39914235#39914235
+  function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
      
 
   // COLOR PALETTE
@@ -82,10 +92,6 @@ $(document).ready(()=>{
 		});
 	}
 
-     
-  // code for computer screen
-//      if (!(url.indexOf('?size=large') > -1)) {
-//         $
         $("#toggle_off_btn").hide();
         $("#toggle_off_btn2").hide();
         $("#toggle_on_btn2").hide();
@@ -99,11 +105,7 @@ $(document).ready(()=>{
        
         $(".stageimg").hide();
         getColorsCreatePalette();
-       console.log("hm");
-        
-       //$("#myCanvas2").show();
-       
-//       }
+      
   
  // input dialogue
      var enter = document.getElementById("enter");
@@ -118,7 +120,6 @@ $(document).ready(()=>{
      
      newchar.onclick = function() {    
        var newcharname = document.getElementById("newcharinput").value;
-       console.log(newcharname);
        $("#characters").append('<button class="colorBtn2" style="background-color:' + chosen_color + '"></button>&nbsp'+ newcharname + '<br><br>');
        document.getElementById("newcharinput").value = "";
        
@@ -130,20 +131,17 @@ $(document).ready(()=>{
        $("#charHelp").hide(); 
        
        char_color_dict[newcharname] = new paper.Color(chosen_color);
-       console.log(char_color_dict);
        
        $("#charchoose").append('<label class="container"><input type="checkbox" checked="checked" value="' + newcharname + '"><span class="checkmark"></span>' + newcharname + '</label> <br>')
      };
        
 // playback button
      
-     var play= document.getElementById("play");
-     var playmodal= document.getElementById("myPlayModal");
-      play.onclick = async function() {
+     var play = document.getElementById("play");
+     var playmodal = document.getElementById("myPlayModal");
+  play.onclick = async function() {
       $("#toggle_on_btn2").show();
       $("#toggle_off_btn2").hide();
-      const context = canvas.getContext('2d');
-      context.clearRect(0, 0, canvas.width, canvas.height);
       intmodal.style.display = "block";
       $("#myCanvas2").show();
       $('#toggle_on_btn').hide();
@@ -157,56 +155,49 @@ $(document).ready(()=>{
       playbackLayer = new paper.Layer();
       playbackLayer.activate();
       playbackLayer.visble = true;
-      var layer;
-        //simple hacky soln to get playback working for now, should fix to a more complex version when time is available
-      if (!front_view_play) {
-        for (layer in topLayers) {
-          layer.activate();
-          await sleep(3000);
-          layer.visible = true; 
+      var contextN = paper.project.importSVG(svStr, function(item) {
+        stickObj = item._children[1];
+        stickObj.visible = false;
+        stickObj.remove();
+    });
+    var templateObj = stickObj;
+    var raster;
+      for (var line = 0; line <= charOrder.length; line++) { // will eventually need to make this <=
+        
+        if (line in Object.keys(all_interactions)) { // need to change the stick figures
+          playbackLayer.removeChildren();
+          playbackLayer = new paper.Layer();
+          var colorSticks = all_sticks[line];
+          var colorHeads = all_heads[line];
+          var currLst;
+          var stick;
+          var num = 0;
+          var position_stickmen = {};
+            if (!front_view_play) {
+              currLst= colorHeads;
+            } else {
+              currLst = colorSticks;
+            }
+          for (stick in colorSticks) {
+            console.log("saving stick as" + stick);
+            position_stickmen[num] = currLst[stick].clone();
+            position_stickmen[num].visible = true;
+            position_stickmen[num].selected = false;
+            position_stickmen[num].addTo(playbackLayer);
+            num+=1;
+          }
+          
         }
-      } else {
-        for (layer in posLayers) {
-          layer.activate();
-          await sleep(3000);
-          layer.visible = true; 
+        
+        if (line < charOrder.length) {
+        
+        $(".word_area").empty();
+        $(".word_area").css("color", char_color_dict[charOrder[line]]);
+        $(".word_area").append('<p>'+ dialOrder[line] + '</p>');
+        await new Promise(resolve => setTimeout(resolve, 1500));
         }
       }
       
-//         for (var line = 0; line <= charOrder.length; line++) { // will eventually need to make this <=
-        
-//         if (line in Object.keys(all_interactions)) { // need to change the stick figures
-//           //clear
-//           //const context = canvas.getContext('2d');
-//           //context.clearRect(0, 0, canvas.width, canvas.height);
-          
-//           //paper.project.activeLayer.removeChildren();
-         
-          
-//           var stick_list = all_interactions[line];
-//           var stick;
-//           var num = 0;
-//           var position_stickmen = {};
-          
-//           //for (stick in stick_list) {
-//             //console.log("saving stick as" + stick);
-//             //var saved_x_position = stick_list[stick][0];
-//             //var saved_y_position = stick_list[stick][1];
-//             //position_stickmen[num] = new paper.Raster('stick'); 
-//             //position_stickmen[num].position = new paper.Point(saved_x_position, saved_y_position);
-//             //num+=1; 
-//          // }
-//           //await new Promise(resolve => setTimeout(resolve, 1000));
-//         }
-        
-//         if (line < charOrder.length) {
-        
-//         $(".word_area").empty();
-//         $(".word_area").css("color", char_color_dict[charOrder[line]]);
-//         $(".word_area").append('<p>'+ dialOrder[line] + '</p>');
-//         await new Promise(resolve => setTimeout(resolve, 2000));
-//         }
-//       }
       }
   
 // beginning of app 
@@ -243,7 +234,7 @@ $(document).ready(()=>{
       $(".script").append('<div class = "row title dialogue"> <div class = "col-12">' + name + ": <a>" + words + '</a></div></div>');
       $('<div class="interaction_actual get_val" value="'+int_count+'"><button class="btn" value="' + int_count + '" id="int' + int_count +'""> <i class="fa fa-plus"></i></button></div>').appendTo(".script").click(function(){openInter($(this).attr('value'))});
 
-      console.log(int_count)
+      console.log(int_count + "-enter.onclick-");
       int_count+=1;
       document.getElementById("words").value = "";
             
@@ -261,7 +252,7 @@ $(document).ready(()=>{
 
     
     function openInter(intnumber) {
-        console.log("one call");
+        console.log("one call -openInter-");
         most_recent_inter = intnumber;
 
       
@@ -278,11 +269,15 @@ $(document).ready(()=>{
         $("#toggle_on_btn2").hide();
       
         paper.setup(canvas);
+        var prevLayer = paper.project.activeLayer;
+        topLayer.visible = false;
+        frontLayer.visible = false;
+        prevLayer.visible = true;
+        
         topLayer = new paper.Layer();
         frontLayer = new paper.Layer();
-         
-        console.log("interaction button number" + most_recent_inter);
-        console.log("my int number was" + intnumber);
+        console.log("-openinter- interaction button number" + most_recent_inter);
+        console.log("-openinter my int number was" + intnumber);
       
          var tool = new paper.Tool();
          tool.onMouseDown = function(event) {
@@ -296,7 +291,6 @@ $(document).ready(()=>{
            }
          }
          tool.onMouseDrag = function(event) {
-          //console.log("boogaloo"); // mainly happening here
           var hitResult = paper.project.hitTestAll(event.point, {segments: true, tolerance: 40, fill: true});
           var hitItem;
           if (!hitResult) {
@@ -314,27 +308,31 @@ $(document).ready(()=>{
           if (isTopView) {
             if (hitItem) { //topview
               hitItem.position = event.lastPoint;
-              //hitItem.scale(1 - (event.delta.y/200)); //there may be a better way to do this but it seems to work fine
-              //topLayer.visible = true; // basically all you need to do for view change is hide one of the layers, it all works identically
+              
+              
               frontLayer.activate();
+              
               var front = hitItem.data.stickSelf;
               scaleBy = 1 + (event.delta.y/200);
               front.scale(scaleBy); //recursive refereces//at original position (midline) the scale is 250, it goes up or down
               front.data.scaling *= scaleBy;
               front.position.x = event.lastPoint.x;
+              
               topLayer.activate(); 
             }   
           } else {
             if (hitItem) { //frontview
               scaleBy = 1 + (event.delta.y/200);
               hitItem.position.x = event.lastPoint.x;
-              hitItem.scale(scaleBy); //there may be a better way to do this but it seems to work fine
+              hitItem.scale(scaleBy);
               hitItem.data.scaling *= scaleBy;
-              //topLayer.visible = true; // basically all you need to do for view change is hide one of the layers, it all works identically
+              
               topLayer.activate();
+              
               var top = hitItem.data.head;
               top.position.x = hitItem.position.x;
               top.position.y = hitItem.data.scaling;
+              
               frontLayer.activate(); 
             }
           }
@@ -364,9 +362,6 @@ $(document).ready(()=>{
       $("#toggle_off_btn2").show();
       $("#toggle_on_btn2").hide();
       front_view_play = false;
-      
-//       topLayer.visible = true;
-//       frontLayer.visible = false;
     }
     
     var toggle_off = document.getElementById("toggle_off_btn");
@@ -385,8 +380,6 @@ $(document).ready(()=>{
        $("#toggle_off_btn2").hide();
        $("#toggle_on_btn2").show();
        front_view_play = true;
-       //topLayer.visible = false;
-       //frontLayer.visible = true;
      }
   
   
@@ -402,7 +395,7 @@ $(document).ready(()=>{
       for (var i = 0; i < charcheck.length; i++) {
         if (charcheck[i].checked) {
           selected_chars_list.push(charcheck[i].value);
-          console.log(selected_chars_list);
+          console.log("-selectedchars-" + selected_chars_list);
         }
       }
       charstickmodal.style.display = "none";
@@ -411,8 +404,6 @@ $(document).ready(()=>{
     }
       ///https://www.base64-image.de/
    // actually drawing the stick figur
-var stickObj;
-var svStr = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiCgkgaWQ9InN2ZzIiIHhtbG5zOmNjPSJodHRwOi8vd2ViLnJlc291cmNlLm9yZy9jYy8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6aW5rc2NhcGU9Imh0dHA6Ly93d3cuaW5rc2NhcGUub3JnL25hbWVzcGFjZXMvaW5rc2NhcGUiIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIiB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgoJIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTcwIDI0MCIKCSBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxNzAgMjQwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjtzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MztzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cjwvc3R5bGU+Cjxzb2RpcG9kaTpuYW1lZHZpZXcgIGJvcmRlcmNvbG9yPSIjNjY2NjY2IiBib3JkZXJvcGFjaXR5PSIxLjAiIGdyaWR0b2xlcmFuY2U9IjEwMDAwIiBndWlkZXRvbGVyYW5jZT0iMTAiIGhlaWdodD0iMjQwcHgiIGlkPSJiYXNlIiBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJsYXllcjIiIGlua3NjYXBlOmN4PSI1NC42NzY0NzIiIGlua3NjYXBlOmN5PSI5Ny40OTk5OTIiIGlua3NjYXBlOmRvY3VtZW50LXVuaXRzPSJweCIgaW5rc2NhcGU6Z3JpZC1wb2ludHM9ImZhbHNlIiBpbmtzY2FwZTpndWlkZS1wb2ludHM9ImZhbHNlIiBpbmtzY2FwZTpvYmplY3QtYmJveD0idHJ1ZSIgaW5rc2NhcGU6b2JqZWN0LW5vZGVzPSJ0cnVlIiBpbmtzY2FwZTpvYmplY3QtcG9pbnRzPSJ0cnVlIiBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMC4wIiBpbmtzY2FwZTpwYWdlc2hhZG93PSIyIiBpbmtzY2FwZTp3aW5kb3ctaGVpZ2h0PSI2OTMiIGlua3NjYXBlOndpbmRvdy13aWR0aD0iMTAyNCIgaW5rc2NhcGU6d2luZG93LXg9IjAiIGlua3NjYXBlOndpbmRvdy15PSIyNSIgaW5rc2NhcGU6em9vbT0iMi40NTY0MTA0IiBvYmplY3R0b2xlcmFuY2U9IjEwIiBwYWdlY29sb3I9IiNmZmZmZmYiIHNob3dncmlkPSJmYWxzZSIgd2lkdGg9IjE3MHB4Ij4KCTwvc29kaXBvZGk6bmFtZWR2aWV3Pgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTAyLjQsMTMwLjdsMTMuNSw4NS44bC0zMS41LTQxLjdsLTI4LjYsNDEuN2w5LjgtODUuN2wtMzQuMiw2LjhsNDEuMS00OS4yYy03LjYtNi42LTEyLjctMTkuMy0xMi43LTMzLjcKCWMwLTIxLjMsMTAuOS0zMC44LDI0LjctMzAuOHMyNSw5LDI1LDMwLjRjMCwxMy43LTQuNSwyNS43LTExLjUsMzIuNWw0MS4yLDU0LjRMMTAyLjQsMTMwLjd6Ii8+Cjwvc3ZnPgo=";
   var contextN = paper.project.importSVG(svStr, function(item) {
     stickObj = item._children[1];
     stickObj.visible = false;
@@ -422,7 +413,7 @@ var svStr = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0id
     stickmen = {};
        var current_x = 90;
        for(var j = 0; j < selected_chars_list.length; j++) { 
-          frontLayer.activate(); //stickmen['stickman' + selected_chars_list[j]] =
+         frontLayer.activate(); 
          var stick = stickObj.clone();
          var scaleVar = 250;
          stick.visible = true;
@@ -433,20 +424,18 @@ var svStr = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0id
           stickmen['stickman' + selected_chars_list[j]].fillColor = char_color_dict[name];
          stickmen['stickman' + selected_chars_list[j]].strokeColor = "black";
          stickmen['stickman' + selected_chars_list[j]].data.scaling = 0.0 + scaleVar;
-        // paper.project.insertLayer(0,stickmen['stickman' + selected_chars_list[j]]);
 
           topLayer.activate();
           stick.data.head = new paper.Path.Circle( new paper.Point(current_x, scaleVar), 30); 
-          //stickmen['stickman' + selected_chars_list[j]].data.head.scale(0.3);
           stickmen['stickman' + selected_chars_list[j]].data.head.fillColor = char_color_dict[name];
          stickmen['stickman' + selected_chars_list[j]].data.head.strokeColor = "black";
          stickmen['stickman' + selected_chars_list[j]].data.head.data.stickSelf = stickmen['stickman' + selected_chars_list[j]]; //recursive lol
           current_x += 120;
+       }
+          frontLayer.activate();
           topLayer.visible = false;
           frontLayer.visible = true;
-          frontLayer.activate();
           isTopView = false;
-       }
   }
   
   
@@ -487,28 +476,42 @@ var svStr = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0id
 //       });
   
      var savepos = document.getElementById("savepos");
+  
      savepos.onclick = function() {
-     var int_char_pos = {};
-     var int_char_top = {};
-      
-     var currLayerCopy = frontLayer.clone(); //really hacky first soln for playback, will want to change most likely if there is time to get tween etc.
-     currLayerCopy.visible = false;
-     var currTopLayerCopy = topLayer.clone(); 
-     currTopLayerCopy.visible = false;
+         var int_char_pos = {};
+         var int_char_top = {};
+         var colorSticks = {};
+         var colorHeads = {};
+         var prevLayer = paper.project.activeLayer;
+         var prevVis = prevLayer.visible;
+         var prevFront = frontLayer.visible;
+         var prevTop = topLayer.visible;
+        //playbackLayer.activate();
+         //frontLayer.visible = true;
+         //var currLayerClone = frontLayer.rasterize(false); //really hacky first soln for playback, will want to change most likely if there is time to get tween etc.
+         //topLayer.visible = true; 
+        //var currTopLayerClone = topLayer.rasterize(false); 
+         //currLayerClone.visible = false;
+         //currTopLayerClone.visible = false;
+         //topLayers[most_recent_inter] = currLayerClone;
+         //posLayers[most_recent_inter] = currTopLayerClone;
+         //topLayer.visible = prevFront;
+         //frontLayer.visible = prevTop;
        
-     topLayers.push(currTopLayerCopy);
-     posLayers.push(currLayerCopy);
-     for (var char = 0; char < selected_chars_list.length; char++) {
-        int_char_pos[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].position._x, stickmen['stickman' + selected_chars_list[char]].position._y];
-        int_char_top[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].data.head.position._x, stickmen['stickman' + selected_chars_list[char]].data.head.position._y];
-      }
-      all_interactions[most_recent_inter] = int_char_pos;
-      top_interactions[most_recent_inter] = int_char_top;
-      intmodal.style.display = "none";
-      const context = canvas.getContext('2d');
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      
-    }
+         for (var char = 0; char < selected_chars_list.length; char++) {
+            int_char_pos[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].position._x, stickmen['stickman' + selected_chars_list[char]].position._y];
+            int_char_top[selected_chars_list[char]] = [stickmen['stickman' + selected_chars_list[char]].data.head.position._x, stickmen['stickman' + selected_chars_list[char]].data.head.position._y];
+            colorSticks[selected_chars_list[char]] = stickmen['stickman' + selected_chars_list[char]].clone();
+            colorHeads[selected_chars_list[char]] = stickmen['stickman' + selected_chars_list[char]].data.head.clone();
+         }
+          all_interactions[most_recent_inter] = int_char_pos;
+          top_interactions[most_recent_inter] = int_char_top;
+          all_sticks[most_recent_inter] = colorSticks;
+          all_heads[most_recent_inter] = colorHeads
+          intmodal.style.display = "none";
+          //const context = canvas.getContext('2d');
+          //context.clearRect(0, 0, canvas.width, canvas.height);
+        };
      
      
      
